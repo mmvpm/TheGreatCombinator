@@ -1,2 +1,2 @@
 # TheGreatCombinator
-Project of Jumaisynba team
+Project of Jumaisynba team.
