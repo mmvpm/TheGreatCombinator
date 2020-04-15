@@ -1,4 +1,3 @@
-import java.util.*
 import kotlin.math.abs
 import kotlin.random.Random
 
@@ -11,16 +10,14 @@ class SolverAI(override val length: Int = 4,
     private var possibleAnswers: Set<String> = setOf()
 
 
-    private fun randomDigit(): Int = abs(Random.nextInt()) % maxDigit + 1
-
     private fun makeFirstAttempt(): String {
+        val attempt = StringBuilder(length)
+
         val left: Int = length / 4
         val middle: Int = length / 2
         val right: Int = length - (left + middle)
+        var digit: Int = utility.randomDigit(maxDigit)
 
-        val attempt = StringBuilder(length)
-
-        var digit: Int = randomDigit()
         for (bound in listOf(left, middle, right)) {
             for (i in 0 until bound) {
                 attempt.append(digit)
@@ -28,7 +25,7 @@ class SolverAI(override val length: Int = 4,
 
             var nextDigit: Int = digit
             while (nextDigit == digit) {
-                nextDigit = randomDigit()
+                nextDigit = utility.randomDigit(maxDigit)
             }
             digit = nextDigit
         }
@@ -36,24 +33,9 @@ class SolverAI(override val length: Int = 4,
         return attempt.toString()
     }
 
-    fun check(attempt: String, answer: String): Pair<Int, Int> {
-        var aCount = 0
-        var bCount = 0
-
-        for (i in 0 until length) {
-            if (attempt[i] == answer[i]) {
-                aCount += 1
-            }
-            else if (attempt[i] in answer) {
-                bCount += 1
-            }
-        }
-
-        return Pair(aCount, bCount)
-    }
 
     private fun countDifference(first: String, second: String): Int {
-        return check(first, second).toList().sum()
+        return utility.check(first, second, length).toList().sum()
     }
 
     override fun makeAttempt(): String {
@@ -62,20 +44,21 @@ class SolverAI(override val length: Int = 4,
             return lastAttempt
         }
 
-        var attempt: String = possibleAnswers.first()
+        var best: String = possibleAnswers.first()
         for (answer in possibleAnswers) {
-            if (countDifference(attempt, lastAttempt) < countDifference(answer, lastAttempt)) {
-                attempt = answer
+            if (countDifference(best, lastAttempt) < countDifference(answer, lastAttempt)) {
+                best = answer
             }
         }
 
-        lastAttempt = attempt
+        lastAttempt = best
         return lastAttempt
     }
 
+
     private fun generatePossible(prefix: String = "") {
         if (prefix.length == length) {
-            if (check(lastAttempt, prefix) == lastResponse) {
+            if (utility.check(lastAttempt, prefix, length) == lastResponse) {
                 possibleAnswers = possibleAnswers.plus(prefix)
             }
             return
@@ -96,7 +79,7 @@ class SolverAI(override val length: Int = 4,
 
         var toRemove: List<String> = mutableListOf()
         for (answer in possibleAnswers) {
-            if (check(lastAttempt, answer) != lastResponse) {
+            if (utility.check(lastAttempt, answer, length) != lastResponse) {
                 toRemove = toRemove.plus(answer)
             }
         }

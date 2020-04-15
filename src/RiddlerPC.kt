@@ -1,17 +1,6 @@
 class RiddlerPC(override val length: Int = 4,
                 override val maxDigit: Int = 6) : Riddler {
 
-    private fun inputValidation(input: String?): Boolean {
-        if (input == null || input.length != length) {
-            return false
-        }
-        for (i in 0 until length) {
-            if (input[i] !in '1'..('0' + maxDigit)) {
-                return false
-            }
-        }
-        return true
-    }
 
     override fun chooseNumber() {
         print("Загадайте число и нажмите Enter: ")
@@ -34,7 +23,7 @@ class RiddlerPC(override val length: Int = 4,
         print("Введите правильный ответ: ")
         var answer: String? = readLine()
 
-        while (!inputValidation(answer)) {
+        while (!utility.inputValidation(answer, length, maxDigit)) {
             print("Неверный формат, попробуйте ещё: ")
             answer = readLine()
         }
