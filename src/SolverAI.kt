@@ -1,6 +1,3 @@
-import kotlin.math.abs
-import kotlin.random.Random
-
 class SolverAI(override val length: Int = 4,
                override val maxDigit: Int = 6) : Solver {
 
@@ -45,9 +42,9 @@ class SolverAI(override val length: Int = 4,
         }
 
         var best: String = possibleAnswers.first()
-        for (answer in possibleAnswers) {
-            if (countDifference(best, lastAttempt) < countDifference(answer, lastAttempt)) {
-                best = answer
+        possibleAnswers.forEach {
+            if (countDifference(best, lastAttempt) < countDifference(it, lastAttempt)) {
+                best = it
             }
         }
 
@@ -78,13 +75,13 @@ class SolverAI(override val length: Int = 4,
         }
 
         var toRemove: List<String> = mutableListOf()
-        for (answer in possibleAnswers) {
-            if (utility.check(lastAttempt, answer, length) != lastResponse) {
-                toRemove = toRemove.plus(answer)
+        possibleAnswers.forEach {
+            if (utility.check(lastAttempt, it, length) != lastResponse) {
+                toRemove = toRemove.plus(it)
             }
         }
-        for (answer in toRemove) {
-            possibleAnswers = possibleAnswers.minus(answer)
+        toRemove.forEach {
+            possibleAnswers = possibleAnswers.minus(it)
         }
     }
 
