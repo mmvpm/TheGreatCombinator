@@ -6,6 +6,10 @@ class SolverPC(override val length: Int = 4,
         print("Введите число: ")
         var input: String? = readLine()
 
+        if (input == "0000") {
+            return "GiveUp"
+        }
+
         while (!utility.inputValidation(input, length, maxDigit)) {
             print("Неверный формат, попробуйте ещё: ")
             input = readLine()

@@ -1,15 +1,20 @@
 class GameSession(val riddler: Riddler, val solver: Solver) {
 
     var attemptCount: Int = 0
+    var giveUp: Boolean = false
 
     fun runSession() {
         riddler.chooseNumber()
-
         var response: Pair<Int, Int> = Pair(0, 0)
 
         while (response.first != riddler.length) {
             val attempt: String = solver.makeAttempt()
             attemptCount += 1
+
+            if (attempt == "GiveUp") {
+                giveUp = true
+                break
+            }
 
             response = riddler.check(attempt)
             solver.parseResponse(response)
@@ -17,6 +22,12 @@ class GameSession(val riddler: Riddler, val solver: Solver) {
     }
 
     fun showResults() {
-        println("Число отгадано за ${attemptCount} попыток")
+        if (!giveUp) {
+            println("Число отгадано за ${attemptCount} попыток")
+        }
+        else {
+            println("Отгадывающий сдался после ${attemptCount} попыток")
+            println("Было загадано число ${riddler.getCorrectAnswer()}")
+        }
     }
 }
