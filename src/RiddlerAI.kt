@@ -4,21 +4,23 @@ import kotlin.random.Random
 class RiddlerAI(override val length: Int = 4,
                 override val maxDigit: Int = 6) : Riddler {
 
-    lateinit var answer: String
+    private lateinit var answer: String
+
+    private fun randomDigit(): Int = abs(Random.nextInt()) % maxDigit + 1
 
     override fun chooseNumber() {
-        val result = Array(length, {'0'})
+        val result = StringBuilder(length)
 
         for (i in 0 until length) {
-            result[i] = '0' + abs(Random.nextInt()) % maxDigit + 1
+            result.append(randomDigit())
         }
 
-        answer = result.joinToString(separator = "")
+        answer = result.toString()
     }
 
     override fun check(attempt: String): Pair<Int, Int> {
-        var aCount: Int = 0
-        var bCount: Int = 0
+        var aCount = 0
+        var bCount = 0
 
         for (i in 0 until length) {
             if (attempt[i] == answer[i]) {

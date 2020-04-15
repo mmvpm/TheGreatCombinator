@@ -7,7 +7,7 @@ class GameRoom(val riddler: Riddler, val solver: Solver) {
             session.showResults()
 
             println("Ещё раз? ")
-            if (readLine()?.toLowerCase() == "нет") {
+            if (readLine()?.toLowerCase() != "да") {
                 break
             }
         }
