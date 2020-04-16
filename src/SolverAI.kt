@@ -25,8 +25,10 @@ class SolverAI(override val length: Int = 4,
         return attempt.toString()
     }
 
-    private fun countDifference(first: String, second: String): Int {
-        return utility.check(first, second, length).toList().sum()
+    private fun countDifference(attempt: String):Int {
+        val response: Pair<Int, Int> = utility.check(attempt, lastAttempt, length)
+        val addition: Int = if (attempt.toSet().size >= 3) -1 else 0
+        return response.toList().sum() + addition
     }
 
     override fun makeAttempt(): String {
@@ -37,7 +39,7 @@ class SolverAI(override val length: Int = 4,
 
         var best: String = possibleAnswers.first()
         possibleAnswers.forEach {
-            if (countDifference(best, lastAttempt) < countDifference(it, lastAttempt)) {
+            if (countDifference(it) < countDifference(best)) {
                 best = it
             }
         }
