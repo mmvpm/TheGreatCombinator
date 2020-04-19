@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">TheGreatCombinator</string>
     <string name="RiddlerAI">Угадать число</string>
+    <string name="SolverAI">Загадать число</string>
 </resources>

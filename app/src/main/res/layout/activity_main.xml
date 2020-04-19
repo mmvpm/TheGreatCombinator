@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="192dp"
@@ -14,19 +15,28 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/firstChoice"
+            android:id="@+id/toActivityRiddlerAI"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="152dp"
             android:layout_marginTop="20dp"
+            android:text="@string/RiddlerAI"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/RiddlerAI">
-        </Button>
+            app:layout_constraintTop_toTopOf="parent"></Button>
 
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/toActivitySolverAI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/SolverAI"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

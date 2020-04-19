@@ -8,13 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_riddler_ai.*
 
 
-class GameRoomActivityAIvsPC : AppCompatActivity() {
+class GameActivityRiddlerAI : AppCompatActivity() {
 
     var attemptCount: Int = 0
     var giveUp: Boolean = false
 
-    var length: Int = 4 // from MainActivity
-    var maxDigit: Int = 6 // from MainActivity
+    var length: Int = 4 // TODO: from MainActivity
+    var maxDigit: Int = 6 // TODO: from MainActivity
 
     val riddler = RiddlerAI(length, maxDigit)
 
@@ -22,21 +22,21 @@ class GameRoomActivityAIvsPC : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_riddler_ai)
 
-        runSession() // while ?
+        runSession() // TODO: while
     }
 
     private fun runSession() {
         riddler.chooseNumber()
-        appendToTextView("Число загадано") // to strings.xml
+        appendToTextView("Число загадано") // TODO: to strings.xml
 
         editText.setOnKeyListener { v, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN
-                && keyCode == KeyEvent.KEYCODE_ENTER) {
+                && keyCode == KeyEvent.KEYCODE_ENTER) { // TODO: Ввод с кнопок
 
                 val attempt: String = editText.text.toString()
 
-                // Кнопка сдаться ?
-                if (attempt == "0000") { // to strings.xml
+                // TODO: Кнопка сдаться
+                if (attempt == "0000") {
                     giveUp = true
                     showSessionResults()
                 }
@@ -55,10 +55,10 @@ class GameRoomActivityAIvsPC : AppCompatActivity() {
 
     private fun showSessionResults() {
         if (!giveUp) {
-            appendToTextView("Верно!") // to strings.xml
+            appendToTextView("Верно!") // TODO: to strings.xml
         }
         else {
-            appendToTextView("Вы сдались. Ответ: ${riddler.getCorrectAnswer()}") // to strings.xml
+            appendToTextView("Вы сдались. Ответ: ${riddler.getCorrectAnswer()}") // TODO: to strings.xml
         }
 
         editText.setText("")
@@ -66,15 +66,15 @@ class GameRoomActivityAIvsPC : AppCompatActivity() {
         editText.isFocusable = false
         editText.isLongClickable = false
 
-        // кнопка restart ?
+        // TODO: кнопка restart
     }
 
 
-    // Scroll View ?
+    // TODO: Scroll View
     private fun appendToTextView(message: String) {
         var newText: String = textView.text.toString() + message + '\n'
 
-        if (newText.count { it == '\n'} > 9) { // magic const
+        if (newText.count { it == '\n'} > 9) { // TODO: magic const
             val prefix: Int = newText.indexOfFirst { it == '\n' }
             newText = newText.drop(prefix + 1)
         }
