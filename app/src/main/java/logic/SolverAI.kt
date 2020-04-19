@@ -4,7 +4,7 @@ class SolverAI(override val length: Int = 4,
     private lateinit var lastAttempt: String
     private lateinit var lastResponse: Pair<Int, Int>
 
-    private var possibleAnswers: Set<String> = setOf()
+    private val possibleAnswers: MutableSet<String> = mutableSetOf()
 
 
     private fun makeFirstAttempt(): String {
@@ -52,7 +52,7 @@ class SolverAI(override val length: Int = 4,
     private fun generatePossible(prefix: String = "") {
         if (prefix.length == length) {
             if (Utility.check(lastAttempt, prefix, length) == lastResponse) {
-                possibleAnswers = possibleAnswers.plus(prefix)
+                possibleAnswers.add(prefix)
             }
             return
         }
@@ -65,21 +65,19 @@ class SolverAI(override val length: Int = 4,
     override fun parseResponse(response: Pair<Int, Int>) {
         lastResponse = response
 
-        var toRemove: List<String> = mutableListOf()
+        val toRemove: MutableList<String> = mutableListOf()
         possibleAnswers.forEach {
             if (Utility.check(lastAttempt, it, length) != lastResponse) {
-                toRemove = toRemove.plus(it)
+                toRemove.add(it)
             }
         }
         toRemove.forEach {
-            possibleAnswers = possibleAnswers.minus(it)
+            possibleAnswers.remove(it)
         }
 
         if (possibleAnswers.isEmpty()) {
             generatePossible()
         }
-
-        //println("// Осталось вариантов: ${possibleAnswers.size}") // to Log.d()
     }
 
 }
