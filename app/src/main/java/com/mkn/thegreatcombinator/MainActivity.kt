@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        first_choice.setOnClickListener {
+        firstChoice.setOnClickListener {
             val intent = Intent(this, GameRoomActivityAIvsPC::class.java)
             startActivity(intent)
         }

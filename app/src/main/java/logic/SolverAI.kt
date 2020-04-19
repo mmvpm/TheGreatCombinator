@@ -79,7 +79,7 @@ class SolverAI(override val length: Int = 4,
             generatePossible()
         }
 
-        println("// Осталось вариантов: ${possibleAnswers.size}")
+        //println("// Осталось вариантов: ${possibleAnswers.size}") // to Log.d()
     }
 
 }
