@@ -1,3 +1,5 @@
+import android.util.Log
+
 class RiddlerAI(override val length: Int = 4,
                 override val maxDigit: Int = 6) : IRiddler {
 

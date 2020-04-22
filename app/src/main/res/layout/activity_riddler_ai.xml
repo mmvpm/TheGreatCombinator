@@ -2,30 +2,105 @@
 <androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <TableRow
         android:layout_width="match_parent"
-        android:layout_height="250sp"
-        android:id="@+id/textView"
-        android:textSize="23sp">
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/back_arrow"
+            android:background="@color/buttonColor"/>
 
-    </TextView>
+        <Button
+            android:id="@+id/giveUpButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GIVE UP"
+            android:width="190dp"
+            android:layout_weight="1"
+            android:height="60dp"
+            android:background="@color/buttonColor"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:textColor="@color/buttonTextColor"/>
 
-    <EditText
+        <ImageButton
+            android:id="@+id/restartButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/reset_button"
+            android:background="@color/buttonColor"
+            />
+    </TableRow>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@color/buttonColor">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:id="@+id/dialogWindow"
+            android:textSize="23sp"
+            android:gravity="bottom"
+            android:background="#FFF"
+            android:paddingStart="10dp">
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:inputType="numberDecimal"
-        android:textSize="25sp"
-        android:hint="Введите число">
+        app:layout_constraintTop_toBottomOf="@+id/editText">
 
-    </EditText>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/plusLayout">
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/counterLayout">
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/minusLayout">
+
+
+        </TableRow>
+
+        <Button
+            android:id="@+id/sendAttemptButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/buttonColor"
+            android:text="MAKE ATTEMPT"
+            android:textColor="@color/buttonTextColor"
+            android:textSize="40sp">
+
+        </Button>
+    </LinearLayout>
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

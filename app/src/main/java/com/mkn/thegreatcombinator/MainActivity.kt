@@ -7,6 +7,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
+    var settingsLength: Int = 4
+    var settingsMaxDigits: Int = 6
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,6 +16,10 @@ class MainActivity : AppCompatActivity() {
 
         toActivityRiddlerAI.setOnClickListener {
             val intent = Intent(this, GameActivityRiddlerAI::class.java)
+            val b = Bundle()
+            b.putInt("maxDigits", settingsMaxDigits)
+            b.putInt("length", settingsLength)
+            intent.putExtras(b)
             startActivity(intent)
         }
 
@@ -22,5 +28,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        settingsButton.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+
+        infoButton.setOnClickListener {
+            val intent = Intent(this, InfoActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
