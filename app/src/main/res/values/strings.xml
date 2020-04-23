@@ -1,10 +1,21 @@
 <resources>
     <string name="app_name">TheGreatCombinator</string>
-    <string name="RiddlerAI">Угадать число</string>
-    <string name="SolverAI">Загадать число</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="RiddlerAI">GUESS NUMBER</string>
+    <string name="SolverAI">MAKE A NUMBER</string>
+
     <string name="Plus">+</string>
     <string name="Minus">-</string>
-    <string name="title_activity_settings">Settings</string>
+    <string name="StartDigit">1</string>
+
+    <string name="NumberMadeUp">Number made up</string>
+    <string name="YouWin">You win!</string>
+    <string name="YouGaveUp">You gave up. Answer:</string>
+
+    <string name="BackButton">BACK</string>
+    <string name="GiveUpButton">GIVE UP</string>
+    <string name="RestartButton">RESTART</string>
+    <string name="CheckButton">CHECK</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>

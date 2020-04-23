@@ -3,8 +3,11 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#333</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="Black">#000</color>
+    <color name="White">#FFF</color>
     <color name="buttonColor">#333</color>
-    <color name="buttonTextColor">#FFF</color>
-    <color name="disableButtonColor">#555</color>
     <color name="mainActivitySecondButton">#FFF</color>
+    <color name="digitsRiddlerAI">#333</color>
+    <color name="textRiddlerAI">#FFF</color>
+    <color name="buttonRiddlerAI">#FFF</color>
 </resources>
