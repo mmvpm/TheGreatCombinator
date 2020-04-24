@@ -1,91 +1,117 @@
 package com.mkn.thegreatcombinator
 
 import SolverAI
+import incZeroBased
+import decZeroBased
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.KeyEvent
+import android.text.method.ScrollingMovementMethod
 import kotlinx.android.synthetic.main.activity_solver_ai.*
-import kotlinx.android.synthetic.main.activity_solver_ai.editText
 
 class GameActivitySolverAI : AppCompatActivity() {
 
-    var attemptCount: Int = 0
+    private var attemptCount: Int = 0
+    private var numberMadeUp: Boolean = false
 
-    var length: Int = 4 // TODO: from MainActivity
-    var maxDigit: Int = 6 // TODO: from MainActivity
+    private var length: Int = 0
+    private var maxDigit: Int = 0
 
-    val solver = SolverAI(length, maxDigit)
+    private var solver = SolverAI(length, maxDigit)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_solver_ai)
-
-        runSession() // TODO: while
+        setUpSettings()
+        runSession()
     }
 
     private fun runSession() {
-        chooseNumber()
+        attemptCount = 0
+        numberMadeUp = false
+        dialogWindow.text = ""
+        appendToTextView(getString(R.string.make_number_and_press))
 
-        var attempt: String = solver.makeAttempt()
-        attemptCount += 1
-        appendToTextView("${attemptCount}. ${attempt} ?")
-
-        editText.setOnKeyListener { v, keyCode, event ->
-            if (event.action == KeyEvent.ACTION_DOWN
-                && keyCode == KeyEvent.KEYCODE_ENTER) {
-
-                val input: String = editText.text.toString()
-
-                if (input.isNotEmpty()) { // TODO: Ввод с кнопок
-                    val response = Pair((input[0] - '0'), (input[2] - '0'))
-
-                    if (response == Pair(length, 0)) {
-                        showSessionResults()
-                        return@setOnKeyListener true
-                    }
-
-                    editText.setText("")
-                    solver.parseResponse(response)
-
-                    attempt = solver.makeAttempt()
-                    attemptCount += 1
-                    appendToTextView("${attemptCount}. ${attempt} ?")
-                }
-
-                true
+        replyButton.setOnClickListener {
+            if (!numberMadeUp) {
+                numberMadeUp = true
             }
             else {
-                false
+                val response: Pair<Int, Int> = readAttempt()
+
+                if (!checkResponseCorrectness(response)) {
+                    appendToTextView(getString(R.string.incorrect_response))
+                    return@setOnClickListener
+                }
+                if (response == Pair(length, 0)) {
+                    showSessionResults()
+                    return@setOnClickListener
+                }
+
+                solver.parseResponse(response)
             }
+
+            val attempt: String = solver.makeAttempt()
+            attemptCount += 1
+            appendToTextView("${attemptCount}. ${attempt} ?")
+        }
+
+        setEnbledInterface(true)
+    }
+
+    private fun setEnbledInterface(status: Boolean) {
+        replyButton.isEnabled = status
+        leftPlus.isEnabled = status
+        rightPlus.isEnabled = status
+        leftMinus.isEnabled = status
+        rightMinus.isEnabled = status
+    }
+
+    private fun setUpSettings() {
+        length = intent.extras?.getInt("length") ?: 4
+        maxDigit = intent.extras?.getInt("maxDigits") ?: 6
+        solver = SolverAI(length, maxDigit)
+
+        dialogWindow.movementMethod = ScrollingMovementMethod()
+        backButton.setOnClickListener {
+            finish()
+        }
+
+        restartButton.setOnClickListener {
+            runSession()
+        }
+
+        leftPlus.setOnClickListener {
+            leftCounter.text = incZeroBased(leftCounter.text.toString(), length + 1)
+        }
+        rightPlus.setOnClickListener {
+            rightCounter.text = incZeroBased(rightCounter.text.toString(), length + 1)
+        }
+
+        leftMinus.setOnClickListener {
+            leftCounter.text = decZeroBased(leftCounter.text.toString(), length + 1)
+        }
+        rightMinus.setOnClickListener {
+            rightCounter.text = decZeroBased(rightCounter.text.toString(), length + 1)
         }
     }
 
     private fun showSessionResults() {
-        appendToTextView("Я угадал!") // TODO: to strings.xml
-
-        editText.setText("")
-        editText.isCursorVisible = false
-        editText.isFocusable = false
-        editText.isLongClickable = false
-
-        // TODO: кнопка restart
+        appendToTextView(getString(R.string.AI_win))
+        setEnbledInterface(false)
     }
 
-
-    // TODO: Scroll View
     private fun appendToTextView(message: String) {
-        var newText: String = textView.text.toString() + message + '\n'
-
-        if (newText.count { it == '\n'} > 9) { // TODO: magic const
-            val prefix: Int = newText.indexOfFirst { it == '\n' }
-            newText = newText.drop(prefix + 1)
-        }
-
-        textView.text = newText
+        val newText: String = message + '\n'
+        dialogWindow.append(newText)
     }
 
-    private fun chooseNumber() {
-        appendToTextView("Загадайте число") // TODO: to strings.xml
-        // TODO: кнопка "Загадал"
+    private fun checkResponseCorrectness(response: Pair<Int, Int>): Boolean {
+        return response.toList().sum() <= length
+    }
+
+    private fun readAttempt(): Pair<Int, Int> {
+        val aCount: Int = leftCounter.text.toString().toInt()
+        val bCount: Int = rightCounter.text.toString().toInt()
+        return Pair(aCount, bCount)
     }
 }

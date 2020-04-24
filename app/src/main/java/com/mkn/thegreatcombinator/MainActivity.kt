@@ -25,6 +25,10 @@ class MainActivity : AppCompatActivity() {
 
         toActivitySolverAI.setOnClickListener {
             val intent = Intent(this, GameActivitySolverAI::class.java)
+            val b = Bundle()
+            b.putInt("maxDigits", settingsMaxDigits)
+            b.putInt("length", settingsLength)
+            intent.putExtras(b)
             startActivity(intent)
         }
 

@@ -16,14 +16,14 @@
             android:id="@+id/toActivityRiddlerAI"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/RiddlerAI"
-            android:background="@color/buttonColor" />
+            android:text="@string/riddler_AI"
+            android:background="@color/to_riddler_AI" />
 
         <ImageButton
             android:id="@+id/infoButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@color/buttonColor"
+            android:background="@color/to_riddler_AI"
             android:layout_alignParentStart="true"
             app:srcCompat="@android:drawable/ic_menu_help"
             tools:ignore="ContentDescription" />
@@ -39,16 +39,16 @@
             android:id="@+id/toActivitySolverAI"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/mainActivitySecondButton"
-            android:text="@string/SolverAI"
-            android:textColor="@color/buttonColor" />
+            android:background="@color/to_solver_AI"
+            android:text="@string/solver_AI"
+            android:textColor="@color/to_riddler_AI" />
 
         <ImageButton
             android:id="@+id/settingsButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"
-            android:background="@color/White"
+            android:background="@color/to_solver_AI"
             app:srcCompat="@drawable/settings_icon"
             tools:ignore="ContentDescription" />
     </RelativeLayout>

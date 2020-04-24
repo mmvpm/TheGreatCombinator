@@ -1,7 +1,8 @@
 package com.mkn.thegreatcombinator
 
 import RiddlerAI
-import Utility
+import incOneBased
+import decOneBased
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.Gravity
@@ -9,21 +10,21 @@ import android.widget.Button
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
 import kotlinx.android.synthetic.main.activity_riddler_ai.*
 
 
 class GameActivityRiddlerAI : AppCompatActivity() {
-    var attemptCount: Int = 0
-    var giveUp: Boolean = false
 
-    var length: Int = 0
-    var maxDigit: Int = 0
+    private var attemptCount: Int = 0
+    private var giveUp: Boolean = false
 
-    var riddler = RiddlerAI(length, maxDigit)
-    var counterHolder = ArrayList<TextView>()
-    var plusHolder = ArrayList<TextView>()
-    var minusHolder = ArrayList<TextView>()
+    private var length: Int = 0
+    private var maxDigit: Int = 0
+
+    private var riddler = RiddlerAI(length, maxDigit)
+    private var counterHolder = ArrayList<TextView>()
+    private var plusHolder = ArrayList<TextView>()
+    private var minusHolder = ArrayList<TextView>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +36,10 @@ class GameActivityRiddlerAI : AppCompatActivity() {
     private fun runSession() {
         riddler.chooseNumber()
 
+        giveUp = false
+        attemptCount = 0
         dialogWindow.text = ""
-        appendToTextView(getString(R.string.NumberMadeUp))
+        appendToTextView(getString(R.string.number_made_up))
 
         giveUpButton.setOnClickListener {
             giveUp = true
@@ -45,11 +48,9 @@ class GameActivityRiddlerAI : AppCompatActivity() {
         sendAttemptButton.setOnClickListener {
             val attempt: String = readAttempt()
 
-            if (Utility.inputValidation(attempt, length, maxDigit)) {
-                val response = riddler.check(attempt)
-                attemptCount += 1
-                parseResponse(attempt, response)
-            }
+            val response = riddler.check(attempt)
+            attemptCount += 1
+            parseResponse(attempt, response)
         }
         setEnbledInterface(true)
     }
@@ -74,7 +75,6 @@ class GameActivityRiddlerAI : AppCompatActivity() {
         }
 
         restartButton.setOnClickListener {
-            attemptCount = 0
             runSession()
         }
     }
@@ -88,9 +88,10 @@ class GameActivityRiddlerAI : AppCompatActivity() {
                 1F
             )
             newCounter.gravity = Gravity.CENTER
-            newCounter.setTextColor(getColor(R.color.digitsRiddlerAI))
+            newCounter.setBackgroundColor(getColor(android.R.color.transparent))
+            newCounter.setTextColor(getColor(R.color.digits_riddler_AI))
             newCounter.textSize = 40F
-            newCounter.text = getString(R.string.StartDigit)
+            newCounter.text = getString(R.string.start_digit_riddler_AI)
             counterHolder.add(newCounter)
 
             val newPlus = Button(this)
@@ -99,12 +100,12 @@ class GameActivityRiddlerAI : AppCompatActivity() {
                 TableRow.LayoutParams.WRAP_CONTENT,
                 1F
             )
-            newPlus.setBackgroundColor(0);
-            newPlus.setTextColor(getColor(R.color.digitsRiddlerAI))
+            newPlus.setBackgroundColor(getColor(android.R.color.transparent));
+            newPlus.setTextColor(getColor(R.color.digits_riddler_AI))
             newPlus.textSize = 30F
-            newPlus.text = getString(R.string.Plus)
+            newPlus.text = getString(R.string.plus)
             newPlus.setOnClickListener {
-                newCounter.text = newCounter.text.toString().toInt().rem(maxDigit).inc().toString()
+                newCounter.text = incOneBased(newCounter.text.toString(), maxDigit)
             }
             plusHolder.add(newPlus)
 
@@ -114,14 +115,12 @@ class GameActivityRiddlerAI : AppCompatActivity() {
                 TableRow.LayoutParams.WRAP_CONTENT,
                 1F
             )
-            newMinus.setBackgroundColor(0);
-            newMinus.setTextColor(getColor(R.color.digitsRiddlerAI))
+            newMinus.setBackgroundColor(getColor(android.R.color.transparent));
+            newMinus.setTextColor(getColor(R.color.digits_riddler_AI))
             newMinus.textSize = 30F
-            newMinus.text = getString(R.string.Minus)
+            newMinus.text = getString(R.string.minus)
             newMinus.setOnClickListener {
-                newCounter.text =
-                    if (newCounter.text.toString().toInt() == 1) maxDigit.toString()
-                    else newCounter.text.toString().toInt().dec().toString()
+                newCounter.text = decOneBased(newCounter.text.toString(), maxDigit)
             }
             minusHolder.add(newMinus)
 
@@ -133,9 +132,9 @@ class GameActivityRiddlerAI : AppCompatActivity() {
 
     private fun showSessionResults() {
         if (!giveUp) {
-            appendToTextView(getString(R.string.YouWin))
+            appendToTextView(getString(R.string.you_win))
         } else {
-            appendToTextView("${getString(R.string.YouGaveUp)} ${riddler.getCorrectAnswer()}")
+            appendToTextView("${getString(R.string.you_gave_up)} ${riddler.getCorrectAnswer()}")
         }
         setEnbledInterface(false)
     }
@@ -154,9 +153,9 @@ class GameActivityRiddlerAI : AppCompatActivity() {
         }
     }
 
-    private fun readAttempt() : String {
+    private fun readAttempt(): String {
         var attemptNumber = ""
-        for(counter in counterHolder){
+        for (counter in counterHolder) {
             attemptNumber += counter.text.toString()
         }
         return attemptNumber

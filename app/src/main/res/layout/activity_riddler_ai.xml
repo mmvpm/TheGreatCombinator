@@ -19,9 +19,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
 
-            android:text="@string/BackButton"
+            android:text="@string/back_button"
             android:background="@drawable/button_black_border"
-            android:textColor="@color/textRiddlerAI"
+            android:textColor="@color/text_riddler_AI"
             tools:ignore="ButtonStyle" />
 
         <Button
@@ -31,9 +31,9 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
 
-            android:text="@string/GiveUpButton"
+            android:text="@string/give_up_button"
             android:background="@drawable/button_black_border"
-            android:textColor="@color/textRiddlerAI"
+            android:textColor="@color/text_riddler_AI"
             tools:ignore="ButtonStyle" />
 
         <Button
@@ -41,9 +41,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
 
-            android:text="@string/RestartButton"
+            android:text="@string/restart_button"
             android:background="@drawable/button_black_border"
-            android:textColor="@color/textRiddlerAI"
+            android:textColor="@color/text_riddler_AI"
             tools:ignore="ButtonStyle" />
     </TableRow>
 
@@ -51,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@color/White"
+        android:background="@drawable/button_white_border"
 
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
@@ -65,9 +65,8 @@
             android:scrollbars="vertical"
 
             android:textSize="20sp"
-            android:textColor="@color/digitsRiddlerAI"
+            android:textColor="@color/digits_riddler_AI"
             android:gravity="bottom"
-            android:background="@drawable/button_white_border"
             android:paddingStart="10dp"
             android:paddingEnd="10dp">
         </TextView>
@@ -117,8 +116,8 @@
         android:layout_marginBottom="10dp"
 
         android:background="@drawable/button_black_border"
-        android:text="@string/CheckButton"
-        android:textColor="@color/textRiddlerAI"
+        android:text="@string/check_button"
+        android:textColor="@color/text_riddler_AI"
         android:textSize="25sp">
     </Button>
 

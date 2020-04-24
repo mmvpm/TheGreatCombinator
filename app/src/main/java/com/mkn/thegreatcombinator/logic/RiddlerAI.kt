@@ -1,7 +1,7 @@
 import android.util.Log
 
-class RiddlerAI(override val length: Int = 4,
-                override val maxDigit: Int = 6) : IRiddler {
+class RiddlerAI(val length: Int = 4,
+                val maxDigit: Int = 6) : IRiddler {
 
     private lateinit var answer: String
 
@@ -10,14 +10,14 @@ class RiddlerAI(override val length: Int = 4,
         val result = StringBuilder(length)
 
         for (i in 0 until length) {
-            result.append(Utility.randomDigit(maxDigit))
+            result.append(randomDigit(maxDigit))
         }
 
         answer = result.toString()
     }
 
     override fun check(attempt: String): Pair<Int, Int> {
-        return Utility.check(attempt, answer, length)
+        return checkAttempt(attempt, answer, length)
     }
 
     override fun getCorrectAnswer(): String {

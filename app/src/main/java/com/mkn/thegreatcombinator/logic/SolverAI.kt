@@ -1,5 +1,5 @@
-class SolverAI(override val length: Int = 4,
-               override val maxDigit: Int = 6) : ISolver {
+class SolverAI(val length: Int = 4,
+               val maxDigit: Int = 6) : ISolver {
 
     private lateinit var lastAttempt: String
     private lateinit var lastResponse: Pair<Int, Int>
@@ -13,7 +13,7 @@ class SolverAI(override val length: Int = 4,
 
         var digits: Set<Int> = setOf()
         while (digits.size < partsCount) {
-            digits = digits.plus(Utility.randomDigit(maxDigit))
+            digits = digits.plus(randomDigit(maxDigit))
         }
 
         val attempt = StringBuilder(length)
@@ -26,7 +26,7 @@ class SolverAI(override val length: Int = 4,
     }
 
     private fun countDifference(attempt: String):Int {
-        val response: Pair<Int, Int> = Utility.check(attempt, lastAttempt, length)
+        val response: Pair<Int, Int> = checkAttempt(attempt, lastAttempt, length)
         val addition: Int = if (attempt.toSet().size >= 3) -1 else 0
         return response.toList().sum() + addition
     }
@@ -51,7 +51,7 @@ class SolverAI(override val length: Int = 4,
 
     private fun generatePossible(prefix: String = "") {
         if (prefix.length == length) {
-            if (Utility.check(lastAttempt, prefix, length) == lastResponse) {
+            if (checkAttempt(lastAttempt, prefix, length) == lastResponse) {
                 possibleAnswers.add(prefix)
             }
             return
@@ -67,7 +67,7 @@ class SolverAI(override val length: Int = 4,
 
         val toRemove: MutableList<String> = mutableListOf()
         possibleAnswers.forEach {
-            if (Utility.check(lastAttempt, it, length) != lastResponse) {
+            if (checkAttempt(lastAttempt, it, length) != lastResponse) {
                 toRemove.add(it)
             }
         }
