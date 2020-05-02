@@ -7,6 +7,7 @@ class RiddlerAI(private val length: Int = 4,
 
 
     override fun chooseNumber() {
+        // Загадывание нового числа
         answer = buildString {
             for (i in 0 until this@RiddlerAI.length) {
                 append(randomDigit(maxDigit))

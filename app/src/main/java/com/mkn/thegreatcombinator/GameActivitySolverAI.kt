@@ -8,7 +8,9 @@ import kotlinx.android.synthetic.main.activity_solver_ai.*
 
 class GameActivitySolverAI : AppCompatActivity() {
 
+    // Количество сделанных попыток
     private var attemptCount: Int = 0
+    // True, если число уже загадано
     private var numberMadeUp: Boolean = false
 
     private var length: Int = 0
@@ -24,6 +26,8 @@ class GameActivitySolverAI : AppCompatActivity() {
     }
 
     private fun runSession() {
+        solver.restart()
+
         attemptCount = 0
         numberMadeUp = false
         dialogWindow.text = ""
@@ -36,27 +40,30 @@ class GameActivitySolverAI : AppCompatActivity() {
             else {
                 val response: Pair<Int, Int> = readAttempt()
 
+                appendToTextView("   A: ${response.first}   B: ${response.second}")
+
                 if (!checkResponseCorrectness(response)) {
-                    appendToTextView(getString(R.string.incorrect_response))
+                    appendToTextView(getString(R.string.incorrect_response),
+                                     true)
+                    printAttempt()
                     return@setOnClickListener
                 }
                 if (response == Pair(length, 0)) {
                     showSessionResults()
                     return@setOnClickListener
                 }
-
                 solver.parseResponse(response)
             }
 
-            val attempt: String = solver.makeAttempt()
+            solver.makeAttempt()
             attemptCount += 1
-            appendToTextView("${attemptCount}. ${attempt} ?")
+            printAttempt()
         }
 
-        setEnbledInterface(true)
+        setEnabledInterface(true)
     }
 
-    private fun setEnbledInterface(status: Boolean) {
+    private fun setEnabledInterface(status: Boolean) {
         replyButton.isEnabled = status
         leftPlus.isEnabled = status
         rightPlus.isEnabled = status
@@ -67,6 +74,7 @@ class GameActivitySolverAI : AppCompatActivity() {
     private fun setUpSettings() {
         length = intent.extras?.getInt("length") ?: 4
         maxDigit = intent.extras?.getInt("maxDigits") ?: 6
+
         solver = SolverAI(length, maxDigit)
 
         dialogWindow.movementMethod = ScrollingMovementMethod()
@@ -94,22 +102,26 @@ class GameActivitySolverAI : AppCompatActivity() {
     }
 
     private fun showSessionResults() {
-        appendToTextView(getString(R.string.AI_win))
-        setEnbledInterface(false)
+        appendToTextView(getString(R.string.AI_win), true)
+        setEnabledInterface(false)
     }
 
-    private fun appendToTextView(message: String) {
-        val newText: String = message + '\n'
+    private fun appendToTextView(message: String, startWithNewLine: Boolean = false) {
+        val newText: String = (if (startWithNewLine) "\n" else "") + message
         dialogWindow.append(newText)
     }
 
-    private fun checkResponseCorrectness(response: Pair<Int, Int>): Boolean {
-        return response.toList().sum() <= length
-    }
+    private fun checkResponseCorrectness(response: Pair<Int, Int>): Boolean
+        = (response.toList().sum() <= length)
 
     private fun readAttempt(): Pair<Int, Int> {
         val aCount: Int = leftCounter.text.toString().toInt()
         val bCount: Int = rightCounter.text.toString().toInt()
         return Pair(aCount, bCount)
+    }
+
+    private fun printAttempt() {
+        appendToTextView("${attemptCount}. ${solver.getLastAttempt()} ?",
+                         true)
     }
 }

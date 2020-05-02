@@ -13,13 +13,17 @@ import kotlinx.android.synthetic.main.activity_riddler_ai.*
 
 class GameActivityRiddlerAI : AppCompatActivity() {
 
+    // Количество сделанных попыток
     private var attemptCount: Int = 0
+    // True, если пользователь сдался
     private var giveUp: Boolean = false
 
     private var length: Int = 4
     private var maxDigit: Int = 6
 
     private var riddler = RiddlerAI(length, maxDigit)
+
+    // Массивы кнопок, генерирующихся автоматически
     private var counterHolder = ArrayList<TextView>()
     private var plusHolder = ArrayList<TextView>()
     private var minusHolder = ArrayList<TextView>()
@@ -50,10 +54,10 @@ class GameActivityRiddlerAI : AppCompatActivity() {
             attemptCount += 1
             parseResponse(attempt, response)
         }
-        setEnbledInterface(true)
+        setEnabledInterface(true)
     }
 
-    private fun setEnbledInterface(status: Boolean) {
+    private fun setEnabledInterface(status: Boolean) {
         sendAttemptButton.isEnabled = status
         giveUpButton.isEnabled = status
         plusHolder.forEach { it.isEnabled = status }
@@ -63,7 +67,6 @@ class GameActivityRiddlerAI : AppCompatActivity() {
     private fun setUpSettings() {
         length = intent.extras?.getInt("length") ?: 4
         maxDigit = intent.extras?.getInt("maxDigits") ?: 6
-        println("" + length + maxDigit)
         riddler = RiddlerAI(length, maxDigit)
 
         gameInterfaceMaker()
@@ -131,21 +134,22 @@ class GameActivityRiddlerAI : AppCompatActivity() {
 
     private fun showSessionResults() {
         if (!giveUp) {
-            appendToTextView(getString(R.string.you_win))
+            appendToTextView(getString(R.string.you_win), true)
         } else {
-            appendToTextView("${getString(R.string.you_gave_up)} ${riddler.getCorrectAnswer()}")
+            appendToTextView("${getString(R.string.you_gave_up)} ${riddler.getCorrectAnswer()}",
+                             true)
         }
-        setEnbledInterface(false)
+        setEnabledInterface(false)
     }
 
-    private fun appendToTextView(message: String) {
-        val newText: String = message + '\n'
+    private fun appendToTextView(message: String, startWithNewLine: Boolean = false) {
+        val newText: String = (if (startWithNewLine) "\n" else "") + message
         dialogWindow.append(newText)
     }
 
     private fun parseResponse(attempt: String, response: Pair<Int, Int>) {
         val message = "${attemptCount}. $attempt   A: ${response.first}   B: ${response.second}"
-        appendToTextView(message)
+        appendToTextView(message, true)
 
         if (response == Pair(length, 0)) {
             showSessionResults()

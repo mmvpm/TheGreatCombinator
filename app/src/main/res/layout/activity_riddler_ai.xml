@@ -68,7 +68,9 @@
             android:textColor="@color/digits_riddler_AI"
             android:gravity="bottom"
             android:paddingStart="10dp"
-            android:paddingEnd="10dp">
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
         </TextView>
 
     </LinearLayout>
