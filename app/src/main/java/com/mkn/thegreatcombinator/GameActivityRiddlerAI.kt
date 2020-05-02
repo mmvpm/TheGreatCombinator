@@ -1,14 +1,12 @@
 package com.mkn.thegreatcombinator
 
-import RiddlerAI
-import incOneBased
-import decOneBased
+import com.mkn.thegreatcombinator.logic.*
 import android.os.Bundle
-import android.text.method.ScrollingMovementMethod
 import android.view.Gravity
 import android.widget.Button
 import android.widget.TableRow
 import android.widget.TextView
+import android.text.method.ScrollingMovementMethod
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_riddler_ai.*
 
@@ -18,8 +16,8 @@ class GameActivityRiddlerAI : AppCompatActivity() {
     private var attemptCount: Int = 0
     private var giveUp: Boolean = false
 
-    private var length: Int = 0
-    private var maxDigit: Int = 0
+    private var length: Int = 4
+    private var maxDigit: Int = 6
 
     private var riddler = RiddlerAI(length, maxDigit)
     private var counterHolder = ArrayList<TextView>()
@@ -65,6 +63,7 @@ class GameActivityRiddlerAI : AppCompatActivity() {
     private fun setUpSettings() {
         length = intent.extras?.getInt("length") ?: 4
         maxDigit = intent.extras?.getInt("maxDigits") ?: 6
+        println("" + length + maxDigit)
         riddler = RiddlerAI(length, maxDigit)
 
         gameInterfaceMaker()
@@ -100,7 +99,7 @@ class GameActivityRiddlerAI : AppCompatActivity() {
                 TableRow.LayoutParams.WRAP_CONTENT,
                 1F
             )
-            newPlus.setBackgroundColor(getColor(android.R.color.transparent));
+            newPlus.setBackgroundColor(getColor(android.R.color.transparent))
             newPlus.setTextColor(getColor(R.color.digits_riddler_AI))
             newPlus.textSize = 30F
             newPlus.text = getString(R.string.plus)
@@ -115,7 +114,7 @@ class GameActivityRiddlerAI : AppCompatActivity() {
                 TableRow.LayoutParams.WRAP_CONTENT,
                 1F
             )
-            newMinus.setBackgroundColor(getColor(android.R.color.transparent));
+            newMinus.setBackgroundColor(getColor(android.R.color.transparent))
             newMinus.setTextColor(getColor(R.color.digits_riddler_AI))
             newMinus.textSize = 30F
             newMinus.text = getString(R.string.minus)

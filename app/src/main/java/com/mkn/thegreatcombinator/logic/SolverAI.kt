@@ -1,35 +1,13 @@
-class SolverAI(val length: Int = 4,
-               val maxDigit: Int = 6) : ISolver {
+package com.mkn.thegreatcombinator.logic
 
-    private lateinit var lastAttempt: String
-    private lateinit var lastResponse: Pair<Int, Int>
+class SolverAI(private val length: Int = 4,
+               private val maxDigit: Int = 6) : ISolver {
+
+    private var lastAttempt: String = ""
+    private var lastResponse: Pair<Int, Int> = Pair(0, 0)
 
     private val possibleAnswers: MutableSet<String> = mutableSetOf()
 
-
-    private fun makeFirstAttempt(): String {
-        val partsCount = 3
-        val bound: Int = length / partsCount
-
-        var digits: Set<Int> = setOf()
-        while (digits.size < partsCount) {
-            digits = digits.plus(randomDigit(maxDigit))
-        }
-
-        val attempt = StringBuilder(length)
-        digits.forEach {
-            attempt.append(it.toString().repeat(bound))
-        }
-        attempt.append(digits.last().toString().repeat(length % partsCount))
-
-        return attempt.toString()
-    }
-
-    private fun countDifference(attempt: String):Int {
-        val response: Pair<Int, Int> = checkAttempt(attempt, lastAttempt, length)
-        val addition: Int = if (attempt.toSet().size >= 3) -1 else 0
-        return response.toList().sum() + addition
-    }
 
     override fun makeAttempt(): String {
         if (possibleAnswers.isEmpty()) {
@@ -48,6 +26,41 @@ class SolverAI(val length: Int = 4,
         return lastAttempt
     }
 
+    override fun parseResponse(response: Pair<Int, Int>) {
+        lastResponse = response
+
+        possibleAnswers.removeIf {
+            checkAttempt(lastAttempt, it, length) != lastResponse
+        }
+
+        if (possibleAnswers.isEmpty()) {
+            generatePossible()
+        }
+    }
+
+    private fun makeFirstAttempt(): String {
+        val partsCount = 3
+        val bound: Int = length / partsCount
+
+        val digits: MutableSet<Int> = mutableSetOf()
+        while (digits.size < partsCount) {
+            digits.add(randomDigit(maxDigit))
+        }
+
+        val attempt = StringBuilder(length)
+        digits.forEach {
+            attempt.append(it.toString().repeat(bound))
+        }
+        attempt.append(digits.last().toString().repeat(length % partsCount))
+
+        return attempt.toString()
+    }
+
+    private fun countDifference(attempt: String):Int {
+        val (aCount, bCount) = checkAttempt(attempt, lastAttempt, length)
+        val addition: Int = if (attempt.toSet().size >= 3) -1 else 0
+        return aCount + bCount + addition
+    }
 
     private fun generatePossible(prefix: String = "") {
         if (prefix.length == length) {
@@ -59,24 +72,6 @@ class SolverAI(val length: Int = 4,
 
         for (i in 1..maxDigit) {
             generatePossible(prefix + i.toString())
-        }
-    }
-
-    override fun parseResponse(response: Pair<Int, Int>) {
-        lastResponse = response
-
-        val toRemove: MutableList<String> = mutableListOf()
-        possibleAnswers.forEach {
-            if (checkAttempt(lastAttempt, it, length) != lastResponse) {
-                toRemove.add(it)
-            }
-        }
-        toRemove.forEach {
-            possibleAnswers.remove(it)
-        }
-
-        if (possibleAnswers.isEmpty()) {
-            generatePossible()
         }
     }
 
