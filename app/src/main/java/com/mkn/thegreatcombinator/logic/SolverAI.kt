@@ -6,6 +6,9 @@ class SolverAI(private val length: Int = 4,
     // Последняя сделанная попытка и ответ на неё
     private var lastAttempt: String = ""
     private var lastResponse: Pair<Int, Int> = Pair(0, 0)
+
+    // Множество всех сделанных попыток
+    private val allAttempts: MutableSet<String> = mutableSetOf()
     // Множество вероятных ответов
     private val possibleAnswers: MutableSet<String> = mutableSetOf()
 
@@ -16,6 +19,7 @@ class SolverAI(private val length: Int = 4,
         // При первом запуске
         if (possibleAnswers.isEmpty()) {
             lastAttempt = makeFirstAttempt()
+            allAttempts.add(lastAttempt)
             return lastAttempt
         }
 
@@ -28,13 +32,15 @@ class SolverAI(private val length: Int = 4,
         }
 
         lastAttempt = best
+        allAttempts.add(lastAttempt)
+
         return lastAttempt
     }
 
     override fun parseResponse(response: Pair<Int, Int>) {
         lastResponse = response
 
-        // Исключение неверные ответов
+        // Исключение неверных ответов
         possibleAnswers.removeIf {
             checkAttempt(lastAttempt, it, length) != lastResponse
         }
@@ -58,7 +64,7 @@ class SolverAI(private val length: Int = 4,
         // Размер частей, кроме (может быть) последней
         val bound: Int = length / partsCount
 
-        // Неообходимы неповторяющиеся(!) цифры для каждой части
+        // Необходимы неповторяющиеся(!) цифры для каждой части
         val digits: MutableSet<Int> = mutableSetOf()
         while (digits.size < partsCount) {
             digits.add(randomDigit(maxDigit))
@@ -88,7 +94,8 @@ class SolverAI(private val length: Int = 4,
     private fun generatePossible(prefix: String = "") {
         if (prefix.length == length) {
             // Отсечение заранее неподходящих (оптимизация памяти)
-            if (checkAttempt(lastAttempt, prefix, length) == lastResponse) {
+            if (checkAttempt(lastAttempt, prefix, length) == lastResponse
+                                                && prefix !in allAttempts) {
                 possibleAnswers.add(prefix)
             }
             return
