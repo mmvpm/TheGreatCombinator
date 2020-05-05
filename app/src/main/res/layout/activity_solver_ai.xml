@@ -1,31 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="250sp"
-        android:id="@+id/textView"
-        android:textSize="23sp">
-
-    </TextView>
-
-    <EditText
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:inputType="phone"
-        android:textSize="25sp"
-        android:hint="A: ?, B: ?">
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
 
-    </EditText>
+        <Button
+            android:id="@+id/backButton"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
 
+            android:text="@string/back_button"
+            android:background="@drawable/button_black_border"
+            android:textColor="@color/text_solver_AI"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/restartButton"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:text="@string/restart_button"
+            android:background="@drawable/button_black_border"
+            android:textColor="@color/text_solver_AI"
+            tools:ignore="ButtonStyle" />
+    </TableRow>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/button_white_border"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/dialogWindow"
+            android:scrollbars="vertical"
+
+            android:textSize="20sp"
+            android:textColor="@color/digits_solver_AI"
+            android:gravity="bottom"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+        </TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/button_white_border">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/plusLayout">
+
+            <Button
+                android:id="@+id/leftPlus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:text="@string/plus"
+                android:textSize="30sp"
+                android:textColor="@color/digits_solver_AI"
+                android:background="@android:color/transparent"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/rightPlus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:text="@string/plus"
+                android:textSize="30sp"
+                android:textColor="@color/digits_solver_AI"
+                android:background="@android:color/transparent"
+                tools:ignore="ButtonStyle" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/counterLayout">
+
+            <Button
+                android:id="@+id/leftCounter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:text="@string/start_digit_solver_AI"
+                android:textSize="30sp"
+                android:textColor="@color/digits_solver_AI"
+                android:background="@android:color/transparent"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/rightCounter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:text="@string/start_digit_solver_AI"
+                android:textSize="30sp"
+                android:textColor="@color/digits_solver_AI"
+                android:background="@android:color/transparent"
+                tools:ignore="ButtonStyle" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/minusLayout">
+
+            <Button
+                android:id="@+id/leftMinus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:text="@string/minus"
+                android:textSize="30sp"
+                android:textColor="@color/digits_solver_AI"
+                android:background="@android:color/transparent"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/rightMinus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:text="@string/minus"
+                android:textSize="30sp"
+                android:textColor="@color/digits_solver_AI"
+                android:background="@android:color/transparent"
+                tools:ignore="ButtonStyle" />
+
+        </TableRow>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/replyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+
+        android:background="@drawable/button_black_border"
+        android:text="@string/reply_button"
+        android:textColor="@color/text_solver_AI"
+        android:textSize="25sp">
+    </Button>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

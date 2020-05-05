@@ -1,42 +1,29 @@
-class SolverAI(override val length: Int = 4,
-               override val maxDigit: Int = 6) : ISolver {
+package com.mkn.thegreatcombinator.logic
 
-    private lateinit var lastAttempt: String
-    private lateinit var lastResponse: Pair<Int, Int>
+class SolverAI(private val length: Int = 4,
+               private val maxDigit: Int = 6) : ISolver {
 
+    // Последняя сделанная попытка и ответ на неё
+    private var lastAttempt: String = ""
+    private var lastResponse: Pair<Int, Int> = Pair(0, 0)
+
+    // Множество всех сделанных попыток
+    private val allAttempts: MutableSet<String> = mutableSetOf()
+    // Множество вероятных ответов
     private val possibleAnswers: MutableSet<String> = mutableSetOf()
 
 
-    private fun makeFirstAttempt(): String {
-        val partsCount = 3
-        val bound: Int = length / partsCount
-
-        var digits: Set<Int> = setOf()
-        while (digits.size < partsCount) {
-            digits = digits.plus(Utility.randomDigit(maxDigit))
-        }
-
-        val attempt = StringBuilder(length)
-        digits.forEach {
-            attempt.append(it.toString().repeat(bound))
-        }
-        attempt.append(digits.last().toString().repeat(length % partsCount))
-
-        return attempt.toString()
-    }
-
-    private fun countDifference(attempt: String):Int {
-        val response: Pair<Int, Int> = Utility.check(attempt, lastAttempt, length)
-        val addition: Int = if (attempt.toSet().size >= 3) -1 else 0
-        return response.toList().sum() + addition
-    }
+    fun getLastAttempt(): String = lastAttempt
 
     override fun makeAttempt(): String {
+        // При первом запуске
         if (possibleAnswers.isEmpty()) {
             lastAttempt = makeFirstAttempt()
+            allAttempts.add(lastAttempt)
             return lastAttempt
         }
 
+        // Минимизируем похожесть двух последовательных попыток
         var best: String = possibleAnswers.first()
         possibleAnswers.forEach {
             if (countDifference(it) < countDifference(best)) {
@@ -45,38 +32,77 @@ class SolverAI(override val length: Int = 4,
         }
 
         lastAttempt = best
+        allAttempts.add(lastAttempt)
+
         return lastAttempt
-    }
-
-
-    private fun generatePossible(prefix: String = "") {
-        if (prefix.length == length) {
-            if (Utility.check(lastAttempt, prefix, length) == lastResponse) {
-                possibleAnswers.add(prefix)
-            }
-            return
-        }
-
-        for (i in 1..maxDigit) {
-            generatePossible(prefix + i.toString())
-        }
     }
 
     override fun parseResponse(response: Pair<Int, Int>) {
         lastResponse = response
 
-        val toRemove: MutableList<String> = mutableListOf()
-        possibleAnswers.forEach {
-            if (Utility.check(lastAttempt, it, length) != lastResponse) {
-                toRemove.add(it)
-            }
-        }
-        toRemove.forEach {
-            possibleAnswers.remove(it)
+        // Исключение неверных ответов
+        possibleAnswers.removeIf {
+            checkAttempt(lastAttempt, it, length) != lastResponse
         }
 
+        // При первом запуске
         if (possibleAnswers.isEmpty()) {
             generatePossible()
+        }
+    }
+
+    // Пользователь нажал Заново/Сдаться
+    fun restart() {
+        lastAttempt = ""
+        lastResponse = Pair(0, 0)
+        possibleAnswers.clear()
+    }
+
+    private fun makeFirstAttempt(): String {
+        // Число состоит из 3-ёх частей: aabbccc
+        val partsCount = 3
+        // Размер частей, кроме (может быть) последней
+        val bound: Int = length / partsCount
+
+        // Необходимы неповторяющиеся(!) цифры для каждой части
+        val digits: MutableSet<Int> = mutableSetOf()
+        while (digits.size < partsCount) {
+            digits.add(randomDigit(maxDigit))
+        }
+
+        // Первая попытка
+        val attempt = StringBuilder(length)
+        digits.forEach {
+            attempt.append(it.toString().repeat(bound))
+        }
+        // Последняя часть может быть чуть больше остальных
+        attempt.append(digits.last().toString().repeat(length % partsCount))
+
+        return attempt.toString()
+    }
+
+    private fun countDifference(attempt: String): Int {
+        // Похожесть двух попыток
+        val (aCount, bCount) = checkAttempt(attempt, lastAttempt, length)
+
+        // Количество различных цифр в попытке
+        val addition: Int = if (attempt.toSet().size >= 3) -1 else 0
+
+        return aCount + bCount + addition
+    }
+
+    private fun generatePossible(prefix: String = "") {
+        if (prefix.length == length) {
+            // Отсечение заранее неподходящих (оптимизация памяти)
+            if (checkAttempt(lastAttempt, prefix, length) == lastResponse
+                                                && prefix !in allAttempts) {
+                possibleAnswers.add(prefix)
+            }
+            return
+        }
+        // Рекурсивный перебор вариантов
+        for (i in 1..maxDigit) {
+            generatePossible(prefix.plus(i))
         }
     }
 
