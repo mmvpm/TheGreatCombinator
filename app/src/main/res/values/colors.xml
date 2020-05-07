@@ -12,4 +12,6 @@
 
     <color name="digits_solver_AI">#333</color>
     <color name="text_solver_AI">#FFF</color>
+
+    <color name="text_white">#FFF</color>
 </resources>
