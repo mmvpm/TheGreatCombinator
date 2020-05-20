@@ -16,7 +16,7 @@ class RiddlerAI(private val length: Int = 4,
     }
 
     override fun check(attempt: String): Pair<Int, Int>
-        = checkAttempt(attempt, answer, length)
+            = checkAttempt(attempt, answer)
 
     override fun getCorrectAnswer(): String = answer
 
