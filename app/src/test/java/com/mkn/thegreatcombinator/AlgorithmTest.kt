@@ -110,7 +110,7 @@ class AlgorithmTest {
             val (a, b) = res
             val exp = "in 1..$length"
             assertTrue("[a] Expected: $exp, Actual: $a", a in 0..length)
-            assertTrue("[b] Expected: $exp, Actual: $b",b in 0..length)
+            assertTrue("[b] Expected: $exp, Actual: $b", b in 0..length)
             assertTrue("[a + b] Expected: $exp, Actual: ${a + b}", (a + b) in 0..length)
 
             solver.parseResponse(res)
@@ -118,8 +118,27 @@ class AlgorithmTest {
             assertTrue("[solver.getLastAttempt] Expected: $att, Actual: $act", act == att)
 
             count += 1
-            assertTrue("[count] Expected: < 100, Actual: $count",count < 100)
+            assertTrue("[count] Expected: < 100, Actual: $count", count < 100)
         }
+    }
+
+
+    @Test
+    fun restart_testValidation() {
+        val solver = SolverAI()
+
+        solver.makeAttempt()
+        solver.parseResponse(Pair(2, 2))
+        solver.makeAttempt()
+        solver.restart()
+
+        val exp1 = "\"\""
+        val act1 = solver.getLastAttempt()
+        assertTrue("[solver.getLastAttempt] Expected: $exp1, Actual: $act1", act1 == "")
+
+        val exp2 = Int.MAX_VALUE
+        val act2 = solver.leftAnswers()
+        assertTrue("[solver.leftAnswers] Expected: $exp2, Actual: $act2", act2 == exp2)
     }
 
 }

@@ -21,6 +21,7 @@ class UtilityTest {
 
     class OneTest(val att: String, val ans: String, val a: Int, val b: Int) {
         private val cnt = checkAttempt(att, ans)
+
         fun exp(): String = "($a, $b)"
         fun act(): String = "(${cnt.first}, ${cnt.second})"
         fun run(): Boolean = checkAttempt(att, ans) == Pair(a, b)
@@ -173,7 +174,7 @@ class UtilityTest {
         for (i in 0 until mod) {
             val exp = (if (i < mod - 1) i + 1 else 0).toString()
             val act = incZeroBased(i.toString(), mod)
-            assertTrue("[i] Expected: $exp, Actual: $act",exp == act)
+            assertTrue("[i] Expected: $exp, Actual: $act", exp == act)
         }
     }
 
@@ -183,7 +184,7 @@ class UtilityTest {
         for (i in 1..mod) {
             val exp = (if (i < mod) i + 1 else 1).toString()
             val act = incOneBased(i.toString(), mod)
-            assertTrue("[i] Expected: $exp, Actual: $act",exp == act)
+            assertTrue("[i] Expected: $exp, Actual: $act", exp == act)
         }
     }
 
@@ -193,7 +194,7 @@ class UtilityTest {
         for (i in 0 until mod) {
             val exp = (if (i > 0) i - 1 else mod - 1).toString()
             val act = decZeroBased(i.toString(), mod)
-            assertTrue("[i] Expected: $exp, Actual: $act",exp == act)
+            assertTrue("[i] Expected: $exp, Actual: $act", exp == act)
         }
     }
 
@@ -203,7 +204,7 @@ class UtilityTest {
         for (i in 1..mod) {
             val exp = (if (i > 1) i - 1 else mod).toString()
             val act = decOneBased(i.toString(), mod)
-            assertTrue("[i] Expected: $exp, Actual: $act",exp == act)
+            assertTrue("[i] Expected: $exp, Actual: $act", exp == act)
         }
     }
 
