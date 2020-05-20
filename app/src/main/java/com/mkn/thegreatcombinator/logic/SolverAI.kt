@@ -1,5 +1,7 @@
 package com.mkn.thegreatcombinator.logic
 
+import androidx.annotation.VisibleForTesting
+
 class SolverAI(private val length: Int = 4,
                private val maxDigit: Int = 6) : ISolver {
 

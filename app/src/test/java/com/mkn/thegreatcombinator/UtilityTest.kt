@@ -11,13 +11,18 @@ class UtilityTest {
     fun randomDigit_testValidation() {
         for (len in 1..10) {
             for (i in 1..len) {
-                assertTrue(randomDigit(len) in 1..len)
+                val exp = "in 1..$len"
+                val act = randomDigit(len)
+                assertTrue("[i] Expected: $exp, Actual: $act", act in 1..len)
             }
         }
     }
 
 
     class OneTest(val att: String, val ans: String, val a: Int, val b: Int) {
+        private val cnt = checkAttempt(att, ans)
+        fun exp(): String = "($a, $b)"
+        fun act(): String = "(${cnt.first}, ${cnt.second})"
         fun run(): Boolean = checkAttempt(att, ans) == Pair(a, b)
     }
 
@@ -50,7 +55,10 @@ class UtilityTest {
             OneTest("3662", "1652", 2, 1),
             OneTest("3321", "5563", 0, 2)
         )
-        tests.map { assertTrue(it.run()) }
+
+        tests.map {
+            assertTrue("[${it.att}, ${it.ans}] Expected: ${it.exp()}, Actual: ${it.act()}", it.run())
+        }
     }
 
     @Test
@@ -82,7 +90,10 @@ class UtilityTest {
             OneTest("38667", "38668", 4, 0),
             OneTest("67273", "67273", 5, 0)
         )
-        tests.map { assertTrue(it.run()) }
+
+        tests.map {
+            assertTrue("[${it.att}, ${it.ans}] Expected: ${it.exp()}, Actual: ${it.act()}", it.run())
+        }
     }
 
     @Test
@@ -114,7 +125,10 @@ class UtilityTest {
             OneTest("294866", "294861", 5, 1),
             OneTest("673289", "673289", 6, 0)
         )
-        tests.map { assertTrue(it.run()) }
+
+        tests.map {
+            assertTrue("[${it.att}, ${it.ans}] Expected: ${it.exp()}, Actual: ${it.act()}", it.run())
+        }
     }
 
     @Test
@@ -146,7 +160,10 @@ class UtilityTest {
             OneTest("23231324", "23231323", 7, 0),
             OneTest("23333323", "23333323", 8, 0)
         )
-        tests.map { assertTrue(it.run()) }
+
+        tests.map {
+            assertTrue("[${it.att}, ${it.ans}] Expected: ${it.exp()}, Actual: ${it.act()}", it.run())
+        }
     }
 
 
@@ -154,7 +171,9 @@ class UtilityTest {
     fun incZeroBased_testValidation() {
         val mod = 17
         for (i in 0 until mod) {
-            assertTrue(incZeroBased(i.toString(), mod) == (if (i < mod - 1) i + 1 else 0).toString())
+            val exp = (if (i < mod - 1) i + 1 else 0).toString()
+            val act = incZeroBased(i.toString(), mod)
+            assertTrue("[i] Expected: $exp, Actual: $act",exp == act)
         }
     }
 
@@ -162,7 +181,9 @@ class UtilityTest {
     fun incOneBased_testValidation() {
         val mod = 17
         for (i in 1..mod) {
-            assertTrue(incOneBased(i.toString(), mod) == (if (i < mod) i + 1 else 1).toString())
+            val exp = (if (i < mod) i + 1 else 1).toString()
+            val act = incOneBased(i.toString(), mod)
+            assertTrue("[i] Expected: $exp, Actual: $act",exp == act)
         }
     }
 
@@ -170,7 +191,9 @@ class UtilityTest {
     fun decZeroBased_testValidation() {
         val mod = 17
         for (i in 0 until mod) {
-            assertTrue(decZeroBased(i.toString(), mod) == (if (i > 0) i - 1 else mod - 1).toString())
+            val exp = (if (i > 0) i - 1 else mod - 1).toString()
+            val act = decZeroBased(i.toString(), mod)
+            assertTrue("[i] Expected: $exp, Actual: $act",exp == act)
         }
     }
 
@@ -178,7 +201,9 @@ class UtilityTest {
     fun decOneBased_testValidation() {
         val mod = 17
         for (i in 1..mod) {
-            assertTrue(decOneBased(i.toString(), mod) == (if (i > 1) i - 1 else mod).toString())
+            val exp = (if (i > 1) i - 1 else mod).toString()
+            val act = decOneBased(i.toString(), mod)
+            assertTrue("[i] Expected: $exp, Actual: $act",exp == act)
         }
     }
 

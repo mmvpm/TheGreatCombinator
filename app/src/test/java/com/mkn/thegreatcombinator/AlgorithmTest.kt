@@ -7,102 +7,118 @@ import com.mkn.thegreatcombinator.logic.*
 class AlgorithmTest {
 
     @Test
+    fun solverAI_length4_maxDigit2() {
+        universalTest(4, 2)
+    }
+
+    @Test
+    fun solverAI_length4_maxDigit3() {
+        universalTest(4, 3)
+    }
+
+    @Test
+    fun solverAI_length4_maxDigit4() {
+        universalTest(4, 4)
+    }
+
+    @Test
+    fun solverAI_length4_maxDigit5() {
+        universalTest(4, 5)
+    }
+
+    @Test
     fun solverAI_length4_maxDigit6() {
-        val length = 4
-        val maxDigit = 6
-        val riddler = RiddlerAI(length, maxDigit)
-        val solver = SolverAI(length, maxDigit)
-
-        riddler.chooseNumber()
-        var res = Pair(0, 0)
-
-        var count = 0
-        while (res.first != length) {
-            val att: String = solver.makeAttempt()
-            res = riddler.check(att)
-            solver.parseResponse(res)
-            count += 1
-            assertTrue(count < 1e4)
-        }
+        universalTest(4, 6)
     }
 
     @Test
-    fun solverAI_length3_maxDigit9() {
-        val length = 3
-        val maxDigit = 9
-        val riddler = RiddlerAI(length, maxDigit)
-        val solver = SolverAI(length, maxDigit)
+    fun solverAI_length4_maxDigit7() {
+        universalTest(4, 7)
+    }
 
-        riddler.chooseNumber()
-        var res = Pair(0, 0)
 
-        var count = 0
-        while (res.first != length) {
-            val att: String = solver.makeAttempt()
-            res = riddler.check(att)
-            solver.parseResponse(res)
-            count += 1
-            assertTrue(count < 1e4)
-        }
+    @Test
+    fun solverAI_length4_maxDigit8() {
+        universalTest(4, 8)
     }
 
     @Test
-    fun solverAI_length5_maxDigit3() {
-        val length = 5
-        val maxDigit = 3
-        val riddler = RiddlerAI(length, maxDigit)
-        val solver = SolverAI(length, maxDigit)
-
-        riddler.chooseNumber()
-        var res = Pair(0, 0)
-
-        var count = 0
-        while (res.first != length) {
-            val att: String = solver.makeAttempt()
-            res = riddler.check(att)
-            solver.parseResponse(res)
-            count += 1
-            assertTrue(count < 1e4)
-        }
+    fun solverAI_length4_maxDigit9() {
+        universalTest(4, 9)
     }
 
     @Test
-    fun solverAI_length7_maxDigit8() {
-        val length = 7
-        val maxDigit = 8
-        val riddler = RiddlerAI(length, maxDigit)
-        val solver = SolverAI(length, maxDigit)
+    fun solverAI_length5_maxDigit6() {
+        universalTest(5, 6)
+    }
 
-        riddler.chooseNumber()
-        var res = Pair(0, 0)
+    @Test
+    fun solverAI_length6_maxDigit6() {
+        universalTest(6, 6)
+    }
 
-        var count = 0
-        while (res.first != length) {
-            val att: String = solver.makeAttempt()
-            res = riddler.check(att)
-            solver.parseResponse(res)
-            count += 1
-            assertTrue(count < 1e6)
-        }
+    @Test
+    fun solverAI_length7_maxDigit6() {
+        universalTest(7, 6)
+    }
+
+    @Test
+    fun solverAI_length8_maxDigit6() {
+        universalTest(8, 6)
+    }
+
+    @Test
+    fun solverAI_length7_maxDigit7() {
+        universalTest(7, 7)
+    }
+
+    @Test
+    fun solverAI_length8_maxDigit8() {
+        universalTest(8, 8)
     }
 
     @Test
     fun solverAI_length8_maxDigit9() {
-        val length = 8
-        val maxDigit = 9
+        universalTest(8, 9)
+    }
+
+
+    private fun universalTest(length: Int, maxDigit: Int) {
         val riddler = RiddlerAI(length, maxDigit)
         val solver = SolverAI(length, maxDigit)
 
         riddler.chooseNumber()
+        val ans = riddler.getCorrectAnswer()
+        for (i in ans) {
+            val exp = "in 1..$maxDigit"
+            val act = "${i - '0'}"
+            assertTrue("[i] Expected: $exp, Actual: $act", i - '0' in 1..maxDigit)
+        }
+
         var res = Pair(0, 0)
 
         var count = 0
         while (res.first != length) {
             val att: String = solver.makeAttempt()
+            for (i in att) {
+                val exp = "in 1..$maxDigit"
+                val act = "${i - '0'}"
+                assertTrue("[i] Expected: $exp, Actual: $act", i - '0' in 1..maxDigit)
+            }
+
             res = riddler.check(att)
+            val (a, b) = res
+            val exp = "in 1..$length"
+            assertTrue("[a] Expected: $exp, Actual: $a", a in 0..length)
+            assertTrue("[b] Expected: $exp, Actual: $b",b in 0..length)
+            assertTrue("[a + b] Expected: $exp, Actual: ${a + b}", (a + b) in 0..length)
+
             solver.parseResponse(res)
+            val act = solver.getLastAttempt()
+            assertTrue("[solver.getLastAttempt] Expected: $att, Actual: $act", act == att)
+
             count += 1
-            assertTrue(count < 1e6)
+            assertTrue("[count] Expected: < 100, Actual: $count",count < 100)
         }
     }
 

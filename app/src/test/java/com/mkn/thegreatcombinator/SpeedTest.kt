@@ -31,7 +31,7 @@ class SpeedTest {
         val length = 6
         val maxDigit = 9
 
-        val n = 100
+        val n = 50
         var sum = 0
         var worst = 0
         for (i in 1..n) {
