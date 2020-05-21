@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
             b.putInt("length", settingsLength)
             intent.putExtras(b)
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }
 
         toActivitySolverAI.setOnClickListener {
@@ -39,16 +40,19 @@ class MainActivity : AppCompatActivity() {
             b.putInt("length", settingsLength)
             intent.putExtras(b)
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
         settingsButton.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
         infoButton.setOnClickListener {
             val intent = Intent(this, InfoActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }
     }
 

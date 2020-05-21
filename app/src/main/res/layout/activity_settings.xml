@@ -1,221 +1,278 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/text_white"
+    android:orientation="vertical">
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp">
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/backButton"
             android:layout_height="match_parent"
             android:layout_weight="1"
 
-            android:text="@string/back_button"
             android:background="@drawable/button_white_border"
+            android:text="@string/back_button"
             android:textColor="@color/colorPrimaryDark"
             tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/giveUpButton"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_margin="3dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-
+            android:layout_weight="1"
+            android:background="@color/text_white"
             android:text="@string/give_up_button"
-            android:background="@color/colorPrimaryDark"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/text_white"
             tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/restartButton"
             android:layout_height="match_parent"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-
+            android:background="@color/text_white"
             android:text="@string/restart_button"
-            android:background="@color/colorPrimaryDark"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/text_white"
             tools:ignore="ButtonStyle" />
     </TableRow>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CHOOSE LENGTH"
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/text_white">
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/button_black_border">
 
-    </TextView>
-    
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="6dp"
+            android:text="@string/length"
+            android:textColor="@color/text_white"
+            android:textSize="20sp">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="6dp"
+            android:text="@string/max_digit"
+            android:textColor="@color/text_white"
+            android:textSize="20sp"></TextView>
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingBottom="50dp">
+        android:baselineAligned="false">
 
-        <RadioGroup
-            android:id="@+id/lenGroup"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <RadioButton
-                android:id="@+id/lenButton3"
+            <RadioGroup
+                android:id="@+id/lenGroup"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/button_white_border"
-                android:text="3"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:buttonTint="@color/colorPrimaryDark"/>
-            <RadioButton
-                android:id="@+id/lenButton4"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="5dp"
+                tools:ignore="UselessParent">
+
+                <RadioButton
+                    android:id="@+id/lenButton3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_white_border"
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:text="@string/_3"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/lenButton4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_white_border"
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:text="@string/_4"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/lenButton5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_white_border"
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:text="@string/_5"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/lenButton6"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_white_border"
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:text="@string/_6"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/lenButton7"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_white_border"
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:text="@string/_7"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/lenButton8"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_white_border"
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:text="@string/_8"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:id="@+id/mDigGroup"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/button_white_border"
-                android:text="4"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:buttonTint="@color/colorPrimaryDark"/>
-            <RadioButton
-                android:id="@+id/lenButton5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/button_white_border"
-                android:text="5"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:buttonTint="@color/colorPrimaryDark"/>
-            <RadioButton
-                android:id="@+id/lenButton6"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/button_white_border"
-                android:text="6"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:buttonTint="@color/colorPrimaryDark"/>
-            <RadioButton
-                android:id="@+id/lenButton7"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/button_white_border"
-                android:text="7"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:buttonTint="@color/colorPrimaryDark"/>
-            <RadioButton
-                android:id="@+id/lenButton8"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/button_white_border"
-                android:text="8"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:buttonTint="@color/colorPrimaryDark"/>
-        </RadioGroup>
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                tools:ignore="UselessParent">
+
+                <RadioButton
+                    android:id="@+id/mDigButton4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_white_border"
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:text="@string/_4"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/mDigButton5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_white_border"
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:text="@string/_5"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/mDigButton6"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_white_border"
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:text="@string/_6"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/mDigButton7"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_white_border"
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:text="@string/_7"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/mDigButton8"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_white_border"
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:text="@string/_8"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/mDigButton9"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_white_border"
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:text="@string/_9"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+            </RadioGroup>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="CHOOSE MAX DIGIT"
-        android:textSize="20sp"
-        android:textColor="@color/text_white">
-
-    </TextView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingBottom="50dp">
-
-        <RadioGroup
-            android:id="@+id/mDigGroup"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <RadioButton
-                android:id="@+id/mDigButton3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/button_white_border"
-                android:text="3"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:buttonTint="@color/colorPrimaryDark"/>
-            <RadioButton
-                android:id="@+id/mDigButton4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/button_white_border"
-                android:text="4"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:buttonTint="@color/colorPrimaryDark"/>
-            <RadioButton
-                android:id="@+id/mDigButton5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/button_white_border"
-                android:text="5"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:buttonTint="@color/colorPrimaryDark"/>
-            <RadioButton
-                android:id="@+id/mDigButton6"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/button_white_border"
-                android:text="6"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:buttonTint="@color/colorPrimaryDark"/>
-            <RadioButton
-                android:id="@+id/mDigButton7"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/button_white_border"
-                android:text="7"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:buttonTint="@color/colorPrimaryDark"/>
-            <RadioButton
-                android:id="@+id/mDigButton8"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/button_white_border"
-                android:text="8"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:buttonTint="@color/colorPrimaryDark"/>
-        </RadioGroup>
+        android:layout_weight="1">
 
     </LinearLayout>
 
