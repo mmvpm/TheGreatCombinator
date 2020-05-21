@@ -72,7 +72,9 @@
             android:padding="6dp"
             android:text="@string/max_digit"
             android:textColor="@color/text_white"
-            android:textSize="20sp"></TextView>
+            android:textSize="20sp">
+            
+        </TextView>
     </LinearLayout>
 
     <LinearLayout
