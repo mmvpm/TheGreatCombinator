@@ -1,6 +1,6 @@
 package com.mkn.thegreatcombinator.logic
 
-import androidx.annotation.VisibleForTesting
+import kotlin.math.min
 
 class SolverAI(private val length: Int = 4,
                private val maxDigit: Int = 6) : ISolver {
@@ -30,14 +30,15 @@ class SolverAI(private val length: Int = 4,
     override fun parseResponse(response: Pair<Int, Int>) {
         lastResponse = response
 
-        // Исключение неверных ответов
-        possibleAnswers.removeIf {
-            checkAttempt(lastAttempt, it) != lastResponse
-        }
-
         // При первом запуске
         if (possibleAnswers.isEmpty()) {
             generatePossible()
+            return
+        }
+
+        // Исключение неверных ответов
+        possibleAnswers.removeIf {
+            checkAttempt(lastAttempt, it) != lastResponse
         }
     }
 
@@ -60,7 +61,7 @@ class SolverAI(private val length: Int = 4,
     // Первая попытка (когда ещё ничего не известно про загаданное число)
     private fun firstChoice(): String {
         // Число состоит из 3-ёх частей: aabbccc
-        val partsCount = if (maxDigit > 2) 3 else maxDigit
+        val partsCount = min(maxDigit, 3)
         // Размер частей, кроме (может быть) последней
         val bound: Int = length / partsCount
 
@@ -100,7 +101,7 @@ class SolverAI(private val length: Int = 4,
     private fun optimalChoice(): String {
         // Лучший (на текущий момент) выбор
         var best = ""
-        var bestSize = 1e9
+        var bestSize = Double.MAX_VALUE
 
         // Перебор возможных попыток
         for (attempt in possibleAnswers) {
@@ -113,11 +114,7 @@ class SolverAI(private val length: Int = 4,
 
             // Средний размер пространства ответов
             var average = 0.0
-            for (i in 0..length) {
-                for (j in 0..length) {
-                    average += count[i][j] * count[i][j]
-                }
-            }
+            count.forEach { it.forEach { x -> average += x * x } }
             average /= possibleAnswers.size
 
             // Минимизируем размер следующего множества возможных ответов
@@ -132,11 +129,8 @@ class SolverAI(private val length: Int = 4,
     private fun countDifference(attempt: String): Int {
         // Похожесть двух попыток
         val (aCount, bCount) = checkAttempt(attempt, lastAttempt)
-
-        // Количество различных цифр в попытке
         val addition: Int = if (attempt.toSet().size >= 3) -1 else 0
-
-        return aCount + bCount + addition
+        return aCount * 2 + bCount + addition
     }
 
     private fun generatePossible(prefix: String = "") {
