@@ -221,7 +221,7 @@ class SolverAI(private val length: Int = 4,
     private fun checkOutUpperBound(prefix: String, i: Int): Boolean {
         val (aCount, bCount) = checkAttempt(allAttempts[i], prefix)
         val (aBound, bBound) = allResponses[i]
-        // Если prefix содержит больше "A" или "B", чем требуется
+        // prefix должен содержать не больше "A" и "B", чем требуется
         return aCount <= aBound && bCount <= bBound
     }
 
@@ -236,7 +236,7 @@ class SolverAI(private val length: Int = 4,
         val aRemainder = length - prefix.length
         val bRemainder = maxNumberOfB[i][aRemainder]
 
-        // Если в prefix не хватает места для необходимых "A" и "B"
+        // В prefix должно хватать места для необходимых "A" и "B"
         return aRequired <= aRemainder && bRequired <= bRemainder
     }
 
