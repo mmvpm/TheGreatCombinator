@@ -8,7 +8,7 @@ class AlgorithmTest {
 
     @Test
     fun solverAI_length4_maxDigit2() {
-        universalTest(4, 2)
+        universalTest(3, 2)
     }
 
     @Test
@@ -17,25 +17,9 @@ class AlgorithmTest {
     }
 
     @Test
-    fun solverAI_length4_maxDigit4() {
-        universalTest(4, 4)
-    }
-
-    @Test
     fun solverAI_length4_maxDigit5() {
         universalTest(4, 5)
     }
-
-    @Test
-    fun solverAI_length4_maxDigit6() {
-        universalTest(4, 6)
-    }
-
-    @Test
-    fun solverAI_length4_maxDigit7() {
-        universalTest(4, 7)
-    }
-
 
     @Test
     fun solverAI_length4_maxDigit8() {
@@ -58,8 +42,38 @@ class AlgorithmTest {
     }
 
     @Test
+    fun solverAI_length7_maxDigit4() {
+        universalTest(7, 4)
+    }
+
+    @Test
     fun solverAI_length7_maxDigit6() {
         universalTest(7, 6)
+    }
+
+    @Test
+    fun solverAI_length7_maxDigit7() {
+        universalTest(7, 7)
+    }
+
+    @Test
+    fun solverAI_length7_maxDigit8() {
+        universalTest(7, 8)
+    }
+
+    @Test
+    fun solverAI_length7_maxDigit9() {
+        universalTest(7, 9)
+    }
+
+    @Test
+    fun solverAI_length8_maxDigit4() {
+        universalTest(8, 4)
+    }
+
+    @Test
+    fun solverAI_length8_maxDigit5() {
+        universalTest(8, 5)
     }
 
     @Test
@@ -68,8 +82,8 @@ class AlgorithmTest {
     }
 
     @Test
-    fun solverAI_length7_maxDigit7() {
-        universalTest(7, 7)
+    fun solverAI_length8_maxDigit7() {
+        universalTest(8, 7)
     }
 
     @Test
@@ -118,7 +132,7 @@ class AlgorithmTest {
             assertTrue("[solver.getLastAttempt] Expected: $att, Actual: $act", act == att)
 
             count += 1
-            assertTrue("[count] Expected: < 100, Actual: $count", count < 100)
+            assertTrue("[count] Expected: < 100, Actual: $count", count < 20)
         }
     }
 

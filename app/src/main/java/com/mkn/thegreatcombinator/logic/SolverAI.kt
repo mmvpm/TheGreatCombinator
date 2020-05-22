@@ -1,6 +1,8 @@
 package com.mkn.thegreatcombinator.logic
 
 import kotlin.math.min
+import kotlin.math.max
+import kotlin.math.pow
 
 class SolverAI(private val length: Int = 4,
                private val maxDigit: Int = 6) : ISolver {
@@ -9,33 +11,76 @@ class SolverAI(private val length: Int = 4,
     private var lastAttempt: String = ""
     private var lastResponse: Pair<Int, Int> = Pair(0, 0)
 
-    // Множество всех сделанных попыток
-    private val allAttempts: MutableSet<String> = mutableSetOf()
+    // Множество всех сделанных попыток и ответов на них
+    private val allAttempts: MutableList<String> = mutableListOf()
+    private val allResponses: MutableList<Pair<Int, Int>> = mutableListOf()
+    // Требуется для отсечения лишних вариантов в generatePossible()
+    private val maxNumberOfB: MutableList<IntArray> = mutableListOf()
+
     // Множество вероятных ответов
     private val possibleAnswers: MutableSet<String> = mutableSetOf()
+
+    // Ограничители времени работы
+    private val timeBound = 100
+    private val timeBoundNext = timeBound * timeBound
+    private val sourceSize = maxDigit.toDouble().pow(length).toInt()
+
+    // Предполагаются естественные условия: (1 <= length <= 8) и (2 <= maxDigit <= 9)
+    // Для разных length и maxDigit требуются разные данные для ускорения алгоритма
+    //                        maxDigit =  4  5  6  7  8  9   // length
+    private val magicList = listOf(listOf(0, 0, 0, 0, 1, 1), // 5
+                                   listOf(0, 0, 1, 1, 2, 2), // 6
+                                   listOf(0, 1, 2, 3, 4, 4), // 7
+                                   listOf(1, 2, 4, 5, 6, 7)) // 8
+    // Количество вызовов randomChoice() (быстро работает на большом объёме данных)
+    private var randomRuns = if (sourceSize > timeBoundNext)
+        magicList[length - 5][maxDigit - 4]
+    else
+        0
 
 
     fun getLastAttempt(): String = lastAttempt
 
     override fun makeAttempt(): String {
-        lastAttempt = when (possibleAnswers.size) {
+        // Выбор алгоритма в зависимоти от размера множества ответов
+        lastAttempt = if (allAttempts.size < randomRuns) {
+            randomChoice()
+        }
+        else when (possibleAnswers.size) {
             0 -> firstChoice()
-            in 1..99 -> optimalChoice() // Медленный алгоритм
+            in 1..timeBound -> optimalChoice()
             else -> heuristicChoice()
         }
         allAttempts.add(lastAttempt)
+
+        // Количество каждой из цифр в lastAttempt
+        val prefSum = MutableList(max(length, maxDigit) + 1) {0}
+        lastAttempt.forEach { prefSum[it - '0'] += 1 }
+        prefSum.sortDescending()
+        for (i in 1 until prefSum.size) {
+            prefSum[i] += prefSum[i - 1]
+        }
+        prefSum.add(0, 0)
+        // prefSum[i] - максимально возможное количество "B" (в response),
+        // которое можно получить, используя ровно i позиций в попытке
+        maxNumberOfB.add(prefSum.toIntArray())
+
         return lastAttempt
     }
 
     override fun parseResponse(response: Pair<Int, Int>) {
         lastResponse = response
+        allResponses.add(response)
 
+        // Пока запускается randomChoice(), которому не требуется possibleAnswers
+        if (allAttempts.size < randomRuns) {
+            return
+        }
         // При первом запуске
         if (possibleAnswers.isEmpty()) {
             generatePossible()
             return
         }
-
         // Исключение неверных ответов
         possibleAnswers.removeIf {
             checkAttempt(lastAttempt, it) != lastResponse
@@ -47,9 +92,12 @@ class SolverAI(private val length: Int = 4,
         lastAttempt = ""
         lastResponse = Pair(0, 0)
         possibleAnswers.clear()
+        allAttempts.clear()
+        allResponses.clear()
+        maxNumberOfB.clear()
     }
 
-    // Количество оставшихся вариантов ответа
+    // Количество оставшихся вариантов ответа (или +inf)
     fun leftAnswers(): Int {
         return if (possibleAnswers.size == 0)
             Int.MAX_VALUE
@@ -82,19 +130,37 @@ class SolverAI(private val length: Int = 4,
         return attempt.toString()
     }
 
+    // Выбор следующей попытки, если вариантов слишком много
+    private fun randomChoice(): String {
+        if (possibleAnswers.isNotEmpty()) {
+            return possibleAnswers.random()
+        }
+        if (lastAttempt == "") {
+            return firstChoice()
+        }
+
+        var countBound = 0
+        var attempt: String = lastAttempt
+        // Пытаемся выбрать по-умному
+        while (!checkAllConditions(attempt) && countBound < timeBoundNext) {
+            attempt = MutableList(length) {
+                randomDigit(maxDigit)
+            }.joinToString("")
+            countBound += 1
+        }
+        // Если так и не нашли, то берём хоть что-нибудь
+        while (attempt in allAttempts) {
+            attempt = MutableList(length) {
+                randomDigit(maxDigit)
+            }.joinToString("")
+        }
+        return attempt
+    }
+
     // Выбор следующей попытки на основании некоторой эвристики
     private fun heuristicChoice(): String {
-        // Немного рандома
-        val magicSpeedUp = possibleAnswers.toList().shuffled()
-
         // Минимизируем похожесть двух последовательных попыток
-        var best: String = magicSpeedUp.first()
-        magicSpeedUp.forEach {
-            if (countDifference(it) < countDifference(best)) {
-                best = it
-            }
-        }
-        return best
+        return possibleAnswers.shuffled().minBy { countDifference(it) } ?: ""
     }
 
     // Выбор следующей попытки на основании более оптимальной эвристики
@@ -133,12 +199,57 @@ class SolverAI(private val length: Int = 4,
         return aCount * 2 + bCount + addition
     }
 
+    // Нужно учесть все попытки (сделанные с помощью randomChoice())
+    private fun checkAllConditions(attempt: String,
+                                   cmp: (String, Int) -> Boolean = ::checkOutEquals): Boolean {
+        var success = true
+        for (i in allAttempts.indices) {
+            if (!cmp(attempt, i)) {
+                success = false
+                break
+            }
+        }
+        return success
+    }
+
+    // True, если prefix является возможным ответом
+    private fun checkOutEquals(prefix: String, i: Int): Boolean {
+        return checkAttempt(allAttempts[i], prefix) == allResponses[i]
+    }
+
+    // True, если prefix можно дополнить до ответа
+    private fun checkOutUpperBound(prefix: String, i: Int): Boolean {
+        val (aCount, bCount) = checkAttempt(allAttempts[i], prefix)
+        val (aBound, bBound) = allResponses[i]
+        // Если prefix содержит больше "A" или "B", чем требуется
+        return aCount <= aBound && bCount <= bBound
+    }
+
+    // True, если prefix можно дополнить до ответа
+    private fun checkOutLowerBound(prefix: String, i: Int): Boolean {
+        val (aCount, bCount) = checkAttempt(allAttempts[i], prefix, allAttempts[i].length)
+        val (aBound, bBound) = allResponses[i]
+        val aRequired = aBound - aCount
+        val bRequired = bBound - bCount
+
+        // Максимальное значение "A" и "B", которое можно получить, дополняя prefix
+        val aRemainder = length - prefix.length
+        val bRemainder = maxNumberOfB[i][aRemainder]
+
+        // Если в prefix не хватает места для необходимых "A" и "B"
+        return aRequired <= aRemainder && bRequired <= bRemainder
+    }
+
     private fun generatePossible(prefix: String = "") {
         if (prefix.length == length) {
-            // Отсечение заранее неподходящих (оптимизация памяти)
-            if (checkAttempt(lastAttempt, prefix) == lastResponse && prefix !in allAttempts) {
+            if (checkAllConditions(prefix)) {
                 possibleAnswers.add(prefix)
             }
+            return
+        }
+        // Отсечение заранее неподходящих вариантов
+        if (!checkAllConditions(prefix, ::checkOutUpperBound) ||
+            !checkAllConditions(prefix, ::checkOutLowerBound)) {
             return
         }
         // Рекурсивный перебор вариантов

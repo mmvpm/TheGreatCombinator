@@ -5,12 +5,12 @@ import kotlin.random.Random
 
 fun randomDigit(mod: Int): Int = abs(Random.nextInt()) % mod + 1
 
-fun checkAttempt(attempt: String, answer: String): Pair<Int, Int> {
+// Параметр length нужен, чтобы можно было запускать от длины attempt тоже
+fun checkAttempt(attempt: String, answer: String, length: Int = answer.length): Pair<Int, Int> {
     var aCount = 0
     var bCount = 0
-    val length = answer.length
     for (i in 0 until length) {
-        if (attempt[i] == answer[i]) {
+        if (i < answer.length && attempt[i] == answer[i]) {
             aCount += 1
         }
         else if (attempt[i] in answer) {
