@@ -132,7 +132,7 @@ class AlgorithmTest {
             assertTrue("[solver.getLastAttempt] Expected: $att, Actual: $act", act == att)
 
             count += 1
-            assertTrue("[count] Expected: < 100, Actual: $count", count < 20)
+            assertTrue("[count] Expected: < 100, Actual: $count", count < 100)
         }
     }
 

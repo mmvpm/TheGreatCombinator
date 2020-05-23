@@ -7,16 +7,56 @@ import kotlin.math.pow
 class SolverAI(private val length: Int = 4,
                private val maxDigit: Int = 6) : ISolver {
 
+    private inner class Data(val attempt: String,
+                             var response: Pair<Int, Int> = Pair(0, 0)) {
+
+        // maxNumberOfB[i] - максимально возможное количество "B" (в response),
+        // которое можно получить, используя ровно i позиций в попытке
+        var maxNumberOfB = MutableList(max(length, maxDigit) + 1) {0}.apply {
+            // Количество каждой из цифр в attempt
+            attempt.forEach { this[it - '0'] += 1 }
+            this.sortDescending()
+            for (i in 1 until this.size) {
+                this[i] += this[i - 1]
+            }
+            this.add(0, 0)
+        }.toIntArray()
+
+        // True, если prefix является возможным ответом
+        fun checkOutEquals(prefix: String): Boolean
+                = checkAttempt(attempt, prefix) == response
+
+        // True, если prefix можно дополнить до ответа
+        fun checkOutUpperBound(prefix: String): Boolean {
+            val (aCount, bCount) = checkAttempt(attempt, prefix)
+            val (aBound, bBound) = response
+            // prefix должен содержать не больше "A" и "B", чем требуется
+            return aCount <= aBound && bCount <= bBound
+        }
+
+        // True, если prefix можно дополнить до ответа
+        fun checkOutLowerBound(prefix: String): Boolean {
+            val (aCount, bCount) = checkAttempt(attempt, prefix, attempt.length)
+            val (aBound, bBound) = response
+            val aRequired = aBound - aCount
+            val bRequired = bBound - bCount
+
+            // Максимальное значение "A" и "B", которое можно получить, дополняя prefix
+            val aRemainder = length - prefix.length
+            val bRemainder = maxNumberOfB[aRemainder]
+
+            // В prefix должно хватать места для необходимых "A" и "B"
+            return aRequired <= aRemainder && bRequired <= bRemainder
+        }
+
+    }
+
     // Последняя сделанная попытка и ответ на неё
     private var lastAttempt: String = ""
     private var lastResponse: Pair<Int, Int> = Pair(0, 0)
 
-    // Множество всех сделанных попыток и ответов на них
-    private val allAttempts: MutableList<String> = mutableListOf()
-    private val allResponses: MutableList<Pair<Int, Int>> = mutableListOf()
-    // Требуется для отсечения лишних вариантов в generatePossible()
-    private val maxNumberOfB: MutableList<IntArray> = mutableListOf()
-
+    // Все сделанные попытки
+    private val allAttempts: MutableList<Data> = mutableListOf()
     // Множество вероятных ответов
     private val possibleAnswers: MutableSet<String> = mutableSetOf()
 
@@ -33,7 +73,8 @@ class SolverAI(private val length: Int = 4,
                                    listOf(0, 1, 2, 3, 4, 4), // 7
                                    listOf(1, 2, 4, 5, 6, 7)) // 8
     // Количество вызовов randomChoice() (быстро работает на большом объёме данных)
-    private var randomRuns = if (sourceSize > timeBoundNext)
+    private var randomRuns =
+    if (sourceSize > timeBoundNext)
         magicList[length - 5][maxDigit - 4]
     else
         0
@@ -51,26 +92,13 @@ class SolverAI(private val length: Int = 4,
             in 1..timeBound -> optimalChoice()
             else -> heuristicChoice()
         }
-        allAttempts.add(lastAttempt)
-
-        // Количество каждой из цифр в lastAttempt
-        val prefSum = MutableList(max(length, maxDigit) + 1) {0}
-        lastAttempt.forEach { prefSum[it - '0'] += 1 }
-        prefSum.sortDescending()
-        for (i in 1 until prefSum.size) {
-            prefSum[i] += prefSum[i - 1]
-        }
-        prefSum.add(0, 0)
-        // prefSum[i] - максимально возможное количество "B" (в response),
-        // которое можно получить, используя ровно i позиций в попытке
-        maxNumberOfB.add(prefSum.toIntArray())
-
+        allAttempts.add(Data(lastAttempt))
         return lastAttempt
     }
 
     override fun parseResponse(response: Pair<Int, Int>): Boolean {
         lastResponse = response
-        allResponses.add(response)
+        allAttempts.last().response = response
 
         // Повезло, можно запускать основной алгоритм
         if (lastResponse.first >= length / 2) {
@@ -104,10 +132,9 @@ class SolverAI(private val length: Int = 4,
 
         possibleAnswers.clear()
         allAttempts.clear()
-        allResponses.clear()
-        maxNumberOfB.clear()
 
-        randomRuns = if (sourceSize > timeBoundNext)
+        randomRuns =
+        if (sourceSize > timeBoundNext)
             magicList[length - 5][maxDigit - 4]
         else
             0
@@ -155,20 +182,14 @@ class SolverAI(private val length: Int = 4,
             return firstChoice()
         }
 
-        var countBound = 0
+        var count = 0
         var attempt: String = lastAttempt
-        // Пытаемся выбрать по-умному
-        while (!checkAllConditions(attempt) && countBound < timeBoundNext) {
+        // Пытаемся выбрать то, что может быть ответом
+        while (!allAttempts.all { it.checkOutEquals(attempt) } && count < timeBoundNext) {
             attempt = MutableList(length) {
                 randomDigit(maxDigit)
             }.joinToString("")
-            countBound += 1
-        }
-        // Если так и не нашли, то берём хоть что-нибудь
-        while (attempt in allAttempts) {
-            attempt = MutableList(length) {
-                randomDigit(maxDigit)
-            }.joinToString("")
+            count += 1
         }
         return attempt
     }
@@ -215,57 +236,16 @@ class SolverAI(private val length: Int = 4,
         return aCount * 2 + bCount + addition
     }
 
-    // Нужно учесть все попытки (сделанные с помощью randomChoice())
-    private fun checkAllConditions(attempt: String,
-                                   cmp: (String, Int) -> Boolean = ::checkOutEquals): Boolean {
-        var success = true
-        for (i in allAttempts.indices) {
-            if (!cmp(attempt, i)) {
-                success = false
-                break
-            }
-        }
-        return success
-    }
-
-    // True, если prefix является возможным ответом
-    private fun checkOutEquals(prefix: String, i: Int): Boolean {
-        return checkAttempt(allAttempts[i], prefix) == allResponses[i]
-    }
-
-    // True, если prefix можно дополнить до ответа
-    private fun checkOutUpperBound(prefix: String, i: Int): Boolean {
-        val (aCount, bCount) = checkAttempt(allAttempts[i], prefix)
-        val (aBound, bBound) = allResponses[i]
-        // prefix должен содержать не больше "A" и "B", чем требуется
-        return aCount <= aBound && bCount <= bBound
-    }
-
-    // True, если prefix можно дополнить до ответа
-    private fun checkOutLowerBound(prefix: String, i: Int): Boolean {
-        val (aCount, bCount) = checkAttempt(allAttempts[i], prefix, allAttempts[i].length)
-        val (aBound, bBound) = allResponses[i]
-        val aRequired = aBound - aCount
-        val bRequired = bBound - bCount
-
-        // Максимальное значение "A" и "B", которое можно получить, дополняя prefix
-        val aRemainder = length - prefix.length
-        val bRemainder = maxNumberOfB[i][aRemainder]
-
-        // В prefix должно хватать места для необходимых "A" и "B"
-        return aRequired <= aRemainder && bRequired <= bRemainder
-    }
-
     private fun generatePossible(prefix: String = "") {
         if (prefix.length == length) {
-            if (checkAllConditions(prefix)) {
+            // Нужно учесть все попытки (сделанные с помощью randomChoice())
+            if (allAttempts.all { it.checkOutEquals(prefix) }) {
                 possibleAnswers.add(prefix)
             }
             return
         }
         // Отсечение заранее неподходящих вариантов
-        if (!checkAllConditions(prefix, ::checkOutUpperBound) ||
-            !checkAllConditions(prefix, ::checkOutLowerBound)) {
+        if (!allAttempts.all { it.checkOutLowerBound(prefix) && it.checkOutUpperBound(prefix) }) {
             return
         }
         // Рекурсивный перебор вариантов
