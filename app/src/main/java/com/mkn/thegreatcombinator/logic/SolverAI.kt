@@ -68,7 +68,7 @@ class SolverAI(private val length: Int = 4,
         return lastAttempt
     }
 
-    override fun parseResponse(response: Pair<Int, Int>) {
+    override fun parseResponse(response: Pair<Int, Int>): Boolean {
         lastResponse = response
         allResponses.add(response)
 
@@ -76,20 +76,25 @@ class SolverAI(private val length: Int = 4,
         if (lastResponse.first >= length / 2) {
             randomRuns = 0
         }
-
         // Пока запускается randomChoice(), которому не требуется possibleAnswers
         if (allAttempts.size < randomRuns) {
-            return
+            return true
         }
         // При первом запуске
         if (possibleAnswers.isEmpty()) {
             generatePossible()
-            return
+            return true
         }
         // Исключение неверных ответов
         possibleAnswers.removeIf {
             checkAttempt(lastAttempt, it) != lastResponse
         }
+        // False, если пользователь ошибся в подсчёте
+        if (possibleAnswers.isEmpty()) {
+            restart()
+            return false
+        }
+        return true
     }
 
     // Пользователь нажал Заново/Сдаться
