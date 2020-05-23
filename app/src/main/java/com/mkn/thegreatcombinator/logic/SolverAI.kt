@@ -72,6 +72,11 @@ class SolverAI(private val length: Int = 4,
         lastResponse = response
         allResponses.add(response)
 
+        // Повезло, можно запускать основной алгоритм
+        if (lastResponse.first >= length / 2) {
+            randomRuns = 0
+        }
+
         // Пока запускается randomChoice(), которому не требуется possibleAnswers
         if (allAttempts.size < randomRuns) {
             return
@@ -91,10 +96,16 @@ class SolverAI(private val length: Int = 4,
     fun restart() {
         lastAttempt = ""
         lastResponse = Pair(0, 0)
+
         possibleAnswers.clear()
         allAttempts.clear()
         allResponses.clear()
         maxNumberOfB.clear()
+
+        randomRuns = if (sourceSize > timeBoundNext)
+            magicList[length - 5][maxDigit - 4]
+        else
+            0
     }
 
     // Количество оставшихся вариантов ответа (или +inf)
