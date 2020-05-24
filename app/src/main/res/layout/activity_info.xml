@@ -17,9 +17,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
 
-            android:background="@drawable/button_black_border"
+            android:background="@drawable/button_white_border"
             android:text="@string/back_button"
-            android:textColor="@color/text_white"
+            android:textColor="@color/colorPrimaryDark"
             tools:ignore="ButtonStyle" />
 
         <Button
@@ -48,27 +48,44 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/button_black_border">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Справка"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:textColor="@color/text_white"
+            android:background="@drawable/button_not_pressed_black">
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@drawable/button_white_border"
 
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="5dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/dialogWindow"
+            android:id="@+id/rulesWindow"
             android:scrollbars="vertical"
 
-            android:textSize="20sp"
-            android:textColor="@color/digits_riddler_AI"
+            android:textSize="19sp"
+            android:textColor="@color/digits_solver_AI"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="Правила.\nДанная игра рассчитана на двух игроков. ">
+            android:text="@string/rules">
         </TextView>
 
     </LinearLayout>

@@ -53,7 +53,7 @@
             android:id="@+id/dialogWindow"
             android:scrollbars="vertical"
 
-            android:textSize="19sp"
+            android:textSize="18sp"
             android:textColor="@color/digits_solver_AI"
             android:gravity="bottom"
             android:paddingStart="10dp"
@@ -75,97 +75,22 @@
         android:background="@drawable/button_white_border">
 
         <TableRow
+            android:layout_margin="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/plusLayout">
-
-            <Button
-                android:id="@+id/leftPlus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-
-                android:text="@string/plus"
-                android:textSize="30sp"
-                android:textColor="@color/digits_solver_AI"
-                android:background="@android:color/transparent"
-                tools:ignore="ButtonStyle" />
-
-            <Button
-                android:id="@+id/rightPlus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-
-                android:text="@string/plus"
-                android:textSize="30sp"
-                android:textColor="@color/digits_solver_AI"
-                android:background="@android:color/transparent"
-                tools:ignore="ButtonStyle" />
-
-        </TableRow>
+            android:id="@+id/plusLayout"/>
 
         <TableRow
+            android:layout_margin="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/counterLayout">
-
-            <Button
-                android:id="@+id/leftCounter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-
-                android:text="@string/start_digit_solver_AI"
-                android:textSize="30sp"
-                android:textColor="@color/digits_solver_AI"
-                android:background="@android:color/transparent"
-                tools:ignore="ButtonStyle" />
-
-            <Button
-                android:id="@+id/rightCounter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-
-                android:text="@string/start_digit_solver_AI"
-                android:textSize="30sp"
-                android:textColor="@color/digits_solver_AI"
-                android:background="@android:color/transparent"
-                tools:ignore="ButtonStyle" />
-
-        </TableRow>
+            android:id="@+id/counterLayout"/>
 
         <TableRow
+            android:layout_margin="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/minusLayout">
-
-            <Button
-                android:id="@+id/leftMinus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-
-                android:text="@string/minus"
-                android:textSize="30sp"
-                android:textColor="@color/digits_solver_AI"
-                android:background="@android:color/transparent"
-                tools:ignore="ButtonStyle" />
-
-            <Button
-                android:id="@+id/rightMinus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-
-                android:text="@string/minus"
-                android:textSize="30sp"
-                android:textColor="@color/digits_solver_AI"
-                android:background="@android:color/transparent"
-                tools:ignore="ButtonStyle" />
-
-        </TableRow>
+            android:id="@+id/minusLayout"/>
 
     </LinearLayout>
 

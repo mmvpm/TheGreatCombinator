@@ -1,5 +1,6 @@
 package com.mkn.thegreatcombinator
 
+import android.graphics.drawable.Drawable
 import com.mkn.thegreatcombinator.logic.*
 import android.os.Bundle
 import android.view.Gravity
@@ -7,7 +8,10 @@ import android.widget.Button
 import android.widget.TableRow
 import android.widget.TextView
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginLeft
+import androidx.core.view.marginStart
 import kotlinx.android.synthetic.main.activity_riddler_ai.*
 
 
@@ -100,9 +104,10 @@ class GameActivityRiddlerAI : AppCompatActivity() {
             newPlus.layoutParams = TableRow.LayoutParams(
                 TableRow.LayoutParams.WRAP_CONTENT,
                 TableRow.LayoutParams.WRAP_CONTENT,
+
                 1F
             )
-            newPlus.setBackgroundColor(getColor(android.R.color.transparent))
+            newPlus.setBackgroundResource(R.drawable.plus_minus_button)
             newPlus.setTextColor(getColor(R.color.digits_riddler_AI))
             newPlus.textSize = 30F
             newPlus.text = getString(R.string.plus)
@@ -117,7 +122,7 @@ class GameActivityRiddlerAI : AppCompatActivity() {
                 TableRow.LayoutParams.WRAP_CONTENT,
                 1F
             )
-            newMinus.setBackgroundColor(getColor(android.R.color.transparent))
+            newMinus.setBackgroundResource(R.drawable.plus_minus_button)
             newMinus.setTextColor(getColor(R.color.digits_riddler_AI))
             newMinus.textSize = 30F
             newMinus.text = getString(R.string.minus)

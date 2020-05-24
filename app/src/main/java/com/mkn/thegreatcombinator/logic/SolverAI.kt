@@ -54,6 +54,7 @@ class SolverAI(private val length: Int = 4,
     // Последняя сделанная попытка и ответ на неё
     private var lastAttempt: String = ""
     private var lastResponse: Pair<Int, Int> = Pair(0, 0)
+    private var alreadyGenerated = false
 
     // Все сделанные попытки
     private val allAttempts: MutableList<Data> = mutableListOf()
@@ -109,8 +110,9 @@ class SolverAI(private val length: Int = 4,
             return true
         }
         // При первом запуске
-        if (possibleAnswers.isEmpty()) {
+        if (!alreadyGenerated) {
             generatePossible()
+            alreadyGenerated = true
             return true
         }
         // Исключение неверных ответов
