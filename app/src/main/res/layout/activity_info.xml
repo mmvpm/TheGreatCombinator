@@ -1,9 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InfoActivity">
+    android:background="@color/text_white"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/backButton"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:background="@drawable/button_black_border"
+            android:text="@string/back_button"
+            android:textColor="@color/text_white"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/giveUpButton"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@color/text_white"
+            android:text="@string/give_up_button"
+            android:textColor="@color/text_white"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/restartButton"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@color/text_white"
+            android:text="@string/restart_button"
+            android:textColor="@color/text_white"
+            tools:ignore="ButtonStyle" />
+    </TableRow>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/button_white_border"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/dialogWindow"
+            android:scrollbars="vertical"
+
+            android:textSize="20sp"
+            android:textColor="@color/digits_riddler_AI"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="Правила.\nДанная игра рассчитана на двух игроков. ">
+        </TextView>
+
+    </LinearLayout>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
