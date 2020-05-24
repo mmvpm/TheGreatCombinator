@@ -9,12 +9,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-    var settingsLength: Int = 4
-    var settingsMaxDigits: Int = 6
-    val APP_PREFERENCES_NAME = "Settings"
-    val APP_PREFERENCES_LENGTH = "Length"
-    val APP_PREFERENCES_MAX_DIGITS = "MaxDigits"
-    lateinit var pref: SharedPreferences
+    private var settingsLength: Int = 4
+    private var settingsMaxDigits: Int = 6
+    private val APP_PREFERENCES_NAME = "Settings"
+    private val APP_PREFERENCES_LENGTH = "Length"
+    private val APP_PREFERENCES_MAX_DIGITS = "MaxDigits"
+    private lateinit var pref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -8,10 +8,10 @@ import android.widget.RadioButton
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity() {
-    val APP_PREFERENCES_NAME = "Settings"
-    val APP_PREFERENCES_LENGTH = "Length"
-    val APP_PREFERENCES_MAX_DIGITS = "MaxDigits"
-    lateinit var pref: SharedPreferences
+    private val APP_PREFERENCES_NAME = "Settings"
+    private val APP_PREFERENCES_LENGTH = "Length"
+    private val APP_PREFERENCES_MAX_DIGITS = "MaxDigits"
+    private lateinit var pref: SharedPreferences
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,11 +31,9 @@ class SettingsActivity : AppCompatActivity() {
                 button.isChecked = true
             }
 
-            button.setOnClickListener{
-                val editor = pref.edit()
-                editor.remove(APP_PREFERENCES_LENGTH)
-                editor.putInt(APP_PREFERENCES_LENGTH, button.text.toString().toInt())
-                editor.apply()
+            button.setOnClickListener {
+                pref.edit().remove(APP_PREFERENCES_LENGTH)
+                    .putInt(APP_PREFERENCES_LENGTH, button.text.toString().toInt()).apply()
             }
         }
 
@@ -46,11 +44,9 @@ class SettingsActivity : AppCompatActivity() {
                 button.isChecked = true
             }
 
-            button.setOnClickListener{
-                val editor = pref.edit()
-                editor.remove(APP_PREFERENCES_MAX_DIGITS)
-                editor.putInt(APP_PREFERENCES_MAX_DIGITS, button.text.toString().toInt())
-                editor.apply()
+            button.setOnClickListener {
+                pref.edit().remove(APP_PREFERENCES_MAX_DIGITS)
+                    .putInt(APP_PREFERENCES_MAX_DIGITS, button.text.toString().toInt()).apply()
             }
         }
 
