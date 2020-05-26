@@ -131,6 +131,7 @@ class SolverAI(private val length: Int = 4,
     fun restart() {
         lastAttempt = ""
         lastResponse = Pair(0, 0)
+        alreadyGenerated = false
 
         possibleAnswers.clear()
         allAttempts.clear()
