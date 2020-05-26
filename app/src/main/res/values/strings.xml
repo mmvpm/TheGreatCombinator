@@ -1,13 +1,16 @@
 <resources>
-    <string name="app_name">TheGreatCombinator</string>
-    <string name="title_activity_settings">Settings</string>
+
+    <!-- Default -->
+    <string name="app_name" translatable="false">TheGreatCombinator</string>
+    <string name="title_activity_settings" translatable="false" />
+
     <string name="riddler_AI">GUESS NUMBER</string>
     <string name="solver_AI">MAKE A NUMBER</string>
 
-    <string name="plus">+</string>
-    <string name="minus">-</string>
-    <string name="start_digit_riddler_AI">1</string>
-    <string name="start_digit_solver_AI">0</string>
+    <string name="plus" translatable="false">+</string>
+    <string name="minus" translatable="false">-</string>
+    <string name="start_digit_riddler_AI" translatable="false">1</string>
+    <string name="start_digit_solver_AI" translatable="false">0</string>
 
     <string name="number_made_up">Number made up</string>
     <string name="make_number_and_press">Make a number\n(press Reply)</string>
@@ -15,6 +18,7 @@
     <string name="AI_win">I won!</string>
     <string name="you_gave_up">You gave up. Answer:</string>
     <string name="incorrect_response">Incorrect response!</string>
+    <string name="conflicting_data">Conflicting data!\n(press Restart)</string>
 
     <string name="back_button">BACK</string>
     <string name="give_up_button">GIVE UP</string>
@@ -22,37 +26,104 @@
     <string name="check_button">CHECK</string>
     <string name="reply_button">REPLY</string>
 
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
+    <string name="length">Length</string>
+    <string name="max_digit">Max Digit</string>
+    <string name="help">Help</string>
+    <string name="locale">Language</string>
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
+    <string name="_3" translatable="false">3</string>
+    <string name="_4" translatable="false">4</string>
+    <string name="_5" translatable="false">5</string>
+    <string name="_6" translatable="false">6</string>
+    <string name="_7" translatable="false">7</string>
+    <string name="_8" translatable="false">8</string>
+    <string name="_9" translatable="false">9</string>
 
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    <string name="rules">
+        The game is designed for two players.\n\nPlayer1 make a number, and Player2 tries to guess it.
+        An attempt is a number reported to the Player1. Player1 replies how many digits are guessed
+        up to the position in the hidden number (in the game this is "A") and how many digits are guessed without
+        matches with their positions in the hidden number (in the game this is "B").\n\nExample.\nAnswer:
+        "3216".\nAttempt: "4336".\n\nA = 1 (the number 6 is guessed up to the position)\nB = 2 (the number 3 is
+        guessed twice, but in the wrong position)\n\nThere are two game modes. In one of them you
+        act as Player1, and in the other the opposite.
     </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
-    <string name="length">LENGTH</string>
-    <string name="max_digit">MAX DIGIT</string>
-    <string name="_3">3</string>
-    <string name="_4">4</string>
-    <string name="_5">5</string>
-    <string name="_6">6</string>
-    <string name="_7">7</string>
-    <string name="_8">8</string>
-    <string name="_9">9</string>
-    <string name="rules">Игра рассчитана на двух игроков.\n\nИгрок1 загадывает число, а игрок2
-        делает попытки его отгадать.
+
+
+    <!-- Russian -->
+    <string name="riddler_AI_ru">ОТГАДАТЬ ЧИСЛО</string>
+    <string name="solver_AI_ru">ЗАГАДАТЬ ЧИСЛО</string>
+
+    <string name="number_made_up_ru">Число загадано</string>
+    <string name="make_number_and_press_ru">Загадай число\n(нажми Отправить)</string>
+    <string name="you_win_ru">Ты выиграл!</string>
+    <string name="AI_win_ru">Я выиграл!</string>
+    <string name="you_gave_up_ru">Ты сдался. Ответ:</string>
+    <string name="incorrect_response_ru">Некорректный ответ!</string>
+    <string name="conflicting_data_ru">Противоречивые данные!\n(нажми Заново)</string>
+
+    <string name="back_button_ru">НАЗАД</string>
+    <string name="give_up_button_ru">СДАТЬСЯ</string>
+    <string name="restart_button_ru">ЗАНОВО</string>
+    <string name="check_button_ru">ПРОВЕРИТЬ</string>
+    <string name="reply_button_ru">ОТПРАВИТЬ</string>
+
+    <string name="length_ru">Длина</string>
+    <string name="max_digit_ru">Макс. цифра</string>
+    <string name="help_ru">Справка</string>
+    <string name="locale_ru">Язык</string>
+
+    <string name="rules_ru">
+        Игра рассчитана на двух игроков.\n\nИгрок1 загадывает число,
+        а игрок2 делает попытки его отгадать.
         Попытка — это число, сообщаемое игроку1. Игрок1 говорит в ответ, сколько цифр угадано
         вплоть до позиции в загаданном числе (в игре - это "А") и сколько цифр угадано без
-        совпадения с их позициями в загаданном числе (в игре - это "В").\n\nПример.\n\nЗадумано:
-        «3216».\nПопытка: «4336».\n\nА = 1 (цифра 6 угадана вплоть до позиции)\nВ = 2 (3 дважды
-        угадана, но стоит на неверной позиции)\n\nЕсть два режима игры. В одном из них вы
-        выступаете в качестве игрока1, а в другом наоборот.
+        совпадения с их позициями в загаданном числе (в игре - это "В").\n\nПример.\nЗадумано:
+        «3216».\nПопытка: «4336».\n\nА = 1 (цифра 6 угадана вплоть до позиции)\nВ = 2
+        (цифра 3 дважды угадана, но стоит на неверной позиции)\n\nЕсть два режима игры.
+        В одном из них вы выступаете в качестве игрока1, а в другом наоборот.
     </string>
-    <string name="conflicting_data">Conflicting data!\n(press Restart)</string>
+
+
+    <!-- Kazakh -->
+    <string name="riddler_AI_kz">БӘСЕКЕЛІК САН</string>
+    <string name="solver_AI_kz">ЖҰМБАҚТЫ САН</string>
+
+    <string name="number_made_up_kz">Сан жасалды</string>
+    <string name="make_number_and_press_kz">Бір сан ойлаңыз\n(басыңыз Жіберу)</string>
+    <string name="you_win_kz">Сен жеңдім!</string>
+    <string name="AI_win_kz">Мен жеңдім!</string>
+    <string name="you_gave_up_kz">Сен берді. Жауабы бар:</string>
+    <string name="incorrect_response_kz">Қате жауап!</string>
+    <string name="conflicting_data_kz">Қарама-қайшы деректер!\n(басыңыз Қайтадан)</string>
+
+    <string name="back_button_kz">АРТҚА</string>
+    <string name="give_up_button_kz">БЕРІЛУ</string>
+    <string name="restart_button_kz">ҚАЙТАДАН</string>
+    <string name="check_button_kz">ТЕКСЕРУ</string>
+    <string name="reply_button_kz">ЖІБЕРУ</string>
+
+    <string name="length_kz">Ұзындығы</string>
+    <string name="max_digit_kz">Макс. сан</string>
+    <string name="help_kz">Анықтама</string>
+    <string name="locale_kz">Тілі</string>
+
+
+    <!-- Preference Titles -->
+    <string name="messages_header" translatable="false">Messages</string>
+    <string name="sync_header" translatable="false">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title" translatable="false">Your signature</string>
+    <string name="reply_title" translatable="false">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title" translatable="false">Sync email periodically</string>
+    <string name="attachment_title" translatable="false">Download incoming attachments</string>
+    <string name="attachment_summary_on" translatable="false">Automatically download attachments for incoming emails</string>
+    <string name="attachment_summary_off" translatable="false">Only download attachments when manually requested</string>
+    <string name="english">English</string>
+    <string name="russian">Russian</string>
+    <string name="kazakh">Kazakh</string>
+
 </resources>

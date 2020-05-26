@@ -55,6 +55,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/textViewLength"
             android:layout_weight="1"
             android:gravity="center"
             android:padding="6dp"
@@ -67,6 +68,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/textViewMaxDigit"
             android:layout_weight="1"
             android:gravity="center"
             android:padding="6dp"
@@ -270,12 +272,99 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/button_black_border">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewLocale"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="6dp"
+            android:text="@string/locale"
+            android:textColor="@color/text_white"
+            android:textSize="20sp">
+
+        </TextView>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="1"
+        android:baselineAligned="false">
+
+        <RadioGroup
+            android:id="@+id/langGroup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            tools:ignore="UselessParent">
+
+            <RadioButton
+                android:id="@+id/langEn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_white_border"
+                android:buttonTint="@color/colorPrimaryDark"
+                android:text="@string/english"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/langRu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_white_border"
+                android:buttonTint="@color/colorPrimaryDark"
+                android:text="@string/russian"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/langKz"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_white_border"
+                android:buttonTint="@color/colorPrimaryDark"
+                android:text="@string/kazakh"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </RadioGroup>
 
     </LinearLayout>
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>

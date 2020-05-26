@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_riddler_ai.*
 import kotlinx.android.synthetic.main.activity_solver_ai.*
 import kotlinx.android.synthetic.main.activity_solver_ai.backButton
 import kotlinx.android.synthetic.main.activity_solver_ai.counterLayout
@@ -16,7 +15,6 @@ import kotlinx.android.synthetic.main.activity_solver_ai.dialogWindow
 import kotlinx.android.synthetic.main.activity_solver_ai.minusLayout
 import kotlinx.android.synthetic.main.activity_solver_ai.plusLayout
 import kotlinx.android.synthetic.main.activity_solver_ai.restartButton
-import org.w3c.dom.Text
 
 class GameActivitySolverAI : AppCompatActivity() {
 
@@ -27,6 +25,7 @@ class GameActivitySolverAI : AppCompatActivity() {
 
     private var length: Int = 0
     private var maxDigit: Int = 0
+    private var locale: String = "en"
 
     private var solver = SolverAI(length, maxDigit)
 
@@ -40,9 +39,15 @@ class GameActivitySolverAI : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_solver_ai)
+        changeLanguage()
         gameInterfaceMaker()
         setUpSettings()
         runSession()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        changeLanguage()
     }
 
     private fun gameInterfaceMaker() {
@@ -96,7 +101,7 @@ class GameActivitySolverAI : AppCompatActivity() {
         attemptCount = 0
         numberMadeUp = false
         dialogWindow.text = ""
-        appendToTextView(getString(R.string.make_number_and_press))
+        appendToTextView(getRightString("make_number_and_press"))
 
         replyButton.setOnClickListener {
             if (!numberMadeUp) {
@@ -108,7 +113,7 @@ class GameActivitySolverAI : AppCompatActivity() {
                 appendToTextView("   A: ${response.first}   B: ${response.second}")
 
                 if (!checkResponseCorrectness(response)) {
-                    appendToTextView(getString(R.string.incorrect_response),
+                    appendToTextView(getRightString("incorrect_response"),
                                      true)
                     printAttempt()
                     return@setOnClickListener
@@ -118,7 +123,7 @@ class GameActivitySolverAI : AppCompatActivity() {
                     return@setOnClickListener
                 }
                 if (!solver.parseResponse(response)) {
-                    appendToTextView(getString(R.string.conflicting_data),
+                    appendToTextView(getRightString("conflicting_data"),
                         true)
                     setEnabledInterface(false)
                     return@setOnClickListener
@@ -144,6 +149,7 @@ class GameActivitySolverAI : AppCompatActivity() {
     private fun setUpSettings() {
         length = intent.extras?.getInt("length") ?: 4
         maxDigit = intent.extras?.getInt("maxDigits") ?: 6
+        locale = intent.extras?.getString("locale") ?: "en"
 
         solver = SolverAI(length, maxDigit)
 
@@ -172,7 +178,7 @@ class GameActivitySolverAI : AppCompatActivity() {
     }
 
     private fun showSessionResults() {
-        appendToTextView(getString(R.string.AI_win), true)
+        appendToTextView(getRightString("AI_win"), true)
         setEnabledInterface(false)
     }
 
@@ -198,5 +204,46 @@ class GameActivitySolverAI : AppCompatActivity() {
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+
+
+    private val convert = HashMap<String, Int>()
+
+    private fun getRightString(input: String): String {
+        return getString(convert[input + "_$locale"] ?: 0)
+    }
+
+    private fun changeLanguage() {
+        convert["back_button_en"] = R.string.back_button
+        convert["back_button_ru"] = R.string.back_button_ru
+        convert["back_button_kz"] = R.string.back_button_kz
+
+        convert["restart_button_en"] = R.string.restart_button
+        convert["restart_button_ru"] = R.string.restart_button_ru
+        convert["restart_button_kz"] = R.string.restart_button_kz
+
+        convert["reply_button_en"] = R.string.reply_button
+        convert["reply_button_ru"] = R.string.reply_button_ru
+        convert["reply_button_kz"] = R.string.reply_button_kz
+
+        convert["make_number_and_press_en"] = R.string.make_number_and_press
+        convert["make_number_and_press_ru"] = R.string.make_number_and_press_ru
+        convert["make_number_and_press_kz"] = R.string.make_number_and_press_kz
+
+        convert["AI_win_en"] = R.string.AI_win
+        convert["AI_win_ru"] = R.string.AI_win_ru
+        convert["AI_win_kz"] = R.string.AI_win_kz
+
+        convert["incorrect_response_en"] = R.string.incorrect_response
+        convert["incorrect_response_ru"] = R.string.incorrect_response_ru
+        convert["incorrect_response_kz"] = R.string.incorrect_response_kz
+
+        convert["conflicting_data_en"] = R.string.conflicting_data
+        convert["conflicting_data_ru"] = R.string.conflicting_data_ru
+        convert["conflicting_data_kz"] = R.string.conflicting_data_kz
+
+        backButton.text = getRightString("back_button")
+        restartButton.text = getRightString("restart_button")
+        replyButton.text = getRightString("reply_button")
     }
 }

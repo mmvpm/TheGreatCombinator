@@ -31,12 +31,4 @@ class GameActivitySolverAITest {
         onView(withId(R.id.replyButton)).perform(click())
     }
 
-    @Test
-    fun clickableSigns() {
-        onView(withId(R.id.leftMinus)).perform(click())
-        onView(withId(R.id.rightMinus)).perform(click())
-        onView(withId(R.id.leftPlus)).perform(click())
-        onView(withId(R.id.rightPlus)).perform(click())
-    }
-
 }

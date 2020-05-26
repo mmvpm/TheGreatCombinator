@@ -24,6 +24,7 @@ class GameActivityRiddlerAI : AppCompatActivity() {
 
     private var length: Int = 4
     private var maxDigit: Int = 6
+    private var locale: String = "en"
 
     private var riddler = RiddlerAI(length, maxDigit)
 
@@ -35,8 +36,14 @@ class GameActivityRiddlerAI : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_riddler_ai)
+        changeLanguage()
         setUpSettings()
         runSession()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        changeLanguage()
     }
 
     private fun runSession() {
@@ -45,7 +52,7 @@ class GameActivityRiddlerAI : AppCompatActivity() {
         giveUp = false
         attemptCount = 0
         dialogWindow.text = ""
-        appendToTextView(getString(R.string.number_made_up))
+        appendToTextView(getRightString("number_made_up"))
 
         giveUpButton.setOnClickListener {
             giveUp = true
@@ -71,6 +78,7 @@ class GameActivityRiddlerAI : AppCompatActivity() {
     private fun setUpSettings() {
         length = intent.extras?.getInt("length") ?: 4
         maxDigit = intent.extras?.getInt("maxDigits") ?: 6
+        locale = intent.extras?.getString("locale") ?: "en"
         riddler = RiddlerAI(length, maxDigit)
 
         gameInterfaceMaker()
@@ -139,10 +147,9 @@ class GameActivityRiddlerAI : AppCompatActivity() {
 
     private fun showSessionResults() {
         if (!giveUp) {
-            appendToTextView(getString(R.string.you_win), true)
+            appendToTextView(getRightString("you_win"), true)
         } else {
-            appendToTextView("${getString(R.string.you_gave_up)} ${riddler.getCorrectAnswer()}",
-                             true)
+            appendToTextView("${getRightString("you_gave_up")} ${riddler.getCorrectAnswer()}", true)
         }
         setEnabledInterface(false)
     }
@@ -172,5 +179,51 @@ class GameActivityRiddlerAI : AppCompatActivity() {
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+    }
+
+
+    private val convert = HashMap<String, Int>()
+
+    private fun getRightString(input: String): String {
+        return getString(convert[input + "_$locale"] ?: 0)
+    }
+
+    private fun changeLanguage() {
+        convert["back_button_en"] = R.string.back_button
+        convert["back_button_ru"] = R.string.back_button_ru
+        convert["back_button_kz"] = R.string.back_button_kz
+
+        convert["restart_button_en"] = R.string.restart_button
+        convert["restart_button_ru"] = R.string.restart_button_ru
+        convert["restart_button_kz"] = R.string.restart_button_kz
+
+        convert["give_up_button_en"] = R.string.give_up_button
+        convert["give_up_button_ru"] = R.string.give_up_button_ru
+        convert["give_up_button_kz"] = R.string.give_up_button_kz
+
+        convert["check_button_en"] = R.string.check_button
+        convert["check_button_ru"] = R.string.check_button_ru
+        convert["check_button_kz"] = R.string.check_button_kz
+
+        convert["number_made_up_en"] = R.string.number_made_up
+        convert["number_made_up_ru"] = R.string.number_made_up_ru
+        convert["number_made_up_kz"] = R.string.number_made_up_kz
+
+        convert["you_win_en"] = R.string.you_win
+        convert["you_win_ru"] = R.string.you_win_ru
+        convert["you_win_kz"] = R.string.you_win_kz
+
+        convert["you_gave_up_en"] = R.string.you_gave_up
+        convert["you_gave_up_ru"] = R.string.you_gave_up_ru
+        convert["you_gave_up_kz"] = R.string.you_gave_up_kz
+
+        convert["incorrect_response_en"] = R.string.incorrect_response
+        convert["incorrect_response_ru"] = R.string.incorrect_response_ru
+        convert["incorrect_response_kz"] = R.string.incorrect_response_kz
+
+        backButton.text = getRightString("back_button")
+        restartButton.text = getRightString("restart_button")
+        giveUpButton.text = getRightString("give_up_button")
+        sendAttemptButton.text = getRightString("check_button")
     }
 }
