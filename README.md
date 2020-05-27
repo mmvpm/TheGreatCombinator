@@ -34,8 +34,8 @@ _Пример_:
 ## Подробности реализации
 
 Проект написан на Kotlin в Android Studio.<br>
-Текущий apk-файл доступен по [ссылке](https://yadi.sk/d/PMkw9XHze5KMMA)<br>
-Приложение с изменённным дизайном [здесь](https://yadi.sk/d/gLxInoQctEGjvg)
+Текущий apk-файл доступен по [ссылке](https://yadi.sk/d/mWK13bo3tZqPOQ)<br>
+Приложение с изменённным дизайном [здесь](https://yadi.sk/d/531A5CGybksVgA)
 
 Тестирование логики - [JUnit4](https://junit.org/junit4/)<br>
 Тестирование интерфейса - [Espresso](https://developer.android.com/training/testing/espresso?hl=ru)
