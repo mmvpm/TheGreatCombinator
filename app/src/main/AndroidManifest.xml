@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="false"
-        android:icon="@mipmap/ic_blue_clover"
+        android:icon="@mipmap/ic_tgc"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_blue_clover_round"
+        android:roundIcon="@mipmap/ic_tgc_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".InfoActivity" />
